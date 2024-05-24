@@ -55,13 +55,13 @@ const siteConfig: SiteConfig = {
             href: '/projects'
         },
         {
+            text: 'About',
+            href: '/about'
+        },
+        {
             text: 'Blog',
             href: '/blog'
-        },
-        // {
-        //     text: 'Tags',
-        //     href: '/tags'
-        // }
+        }
     ],
     footerNavLinks: [
         {
@@ -72,10 +72,7 @@ const siteConfig: SiteConfig = {
             text: 'Contact',
             href: '/contact'
         },
-        // {
-        //     text: 'Terms',
-        //     href: '/terms'
-        // },
+
         {
             text: 'View Sauce',
             href: 'https://github.com/ni3rav/portfolio-blog'
