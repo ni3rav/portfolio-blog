@@ -1,7 +1,7 @@
 ---
 title: Getting my hands dirty with Astro.js
 excerpt: In this blog I will briefly run through the process on how I created my personal/blog website using Astro.js and How I deployed it live on the Web.
-publishDate: 'April 25, 2024'
+publishDate: 'May 25, 2024'
 ---
 
 This tutorial should be sufficient to give you a brief overview about Astro.js and You'd be able to understand how an Astro.js project is structured.  
