@@ -25,7 +25,7 @@ To be fair it's quite easy to get started with Astro if you want to build static
 
 ### The Actual Stuff
 
-So I've decided to breakdown this process into 4 phases:
+So I've decided to breakdown this process into 3 phases:
 
 1. Creating the Project
 
