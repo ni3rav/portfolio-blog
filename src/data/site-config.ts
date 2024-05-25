@@ -41,10 +41,10 @@ const siteConfig: SiteConfig = {
     title: 'Nirav Mehta',
     subtitle: 'The place where I write about the stuff I enjoy',
     description: 'My Blog and Portfolio Website built using Dante theme of Astro.js',
-    image: {
-        src: '/dante-preview.jpg',
-        alt: 'Dante - Astro.js and Tailwind CSS theme'
-    },
+    // image: {
+        // src: '/dante-preview.jpg',
+        // alt: 'Dante - Astro.js and Tailwind CSS theme'
+    // },
     headerNavLinks: [
         {
             text: 'Home',
