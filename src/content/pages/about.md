@@ -20,7 +20,7 @@ I am really comfortable working with  **HTML**, **CSS**, **JavaScript**, and I a
 
 ## Continuous Learning
 
-I firmly believe that learning is a continuous process and ther's no end to it because *The more I learn, the Lesser*
+I firmly believe that learning is a continuous process and there is no end to it because *The more I learn, the Lesser*
 
 ## Get In Touch
 
