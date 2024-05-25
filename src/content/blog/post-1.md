@@ -56,7 +56,7 @@ But there's a catch, If I were to clone someone else's repo then I'd have to cre
 npm i
 ```
 
-And this got my wheel spinning I was able to start a development server by executing
+And this got my wheel spinning, I was able to start a development server by executing
 
 ```shell
 npm run dev
