@@ -38,8 +38,8 @@ export type SiteConfig = {
 };
 
 const siteConfig: SiteConfig = {
-    title: 'Nirav',
-    subtitle: 'My Blog and Portfolio Website',
+    title: 'Nirav Mehta',
+    subtitle: 'The place where I write about the stuff I enjoy',
     description: 'My Blog and Portfolio Website built using Dante theme of Astro.js',
     image: {
         src: '/dante-preview.jpg',
@@ -94,7 +94,7 @@ const siteConfig: SiteConfig = {
     ],
     hero: {
         title: 'Oh hello there!',
-        text: "I'm **Nirav**, an aspiring web developer and Computer Science freshman(sophmore in a few days) at Adani University. I've built this website to get my hands on Astro.js and it's been while since I built some stuff that I'd actually enjoy. I keep on experimenting with various stuffs(mostly frontend tbh) at my <a href='https://github.com/ni3rav'>GitHub</a> and yeah I'm on <a href='https://twitter.com/ni3rav'>Twitter/X</a> too and lastly I love CATS.",
+        text: "I'm **Nirav**, an aspiring web developer and Computer Science freshman(sophomore in a few days) at Adani University. I've built this website to get my hands on Astro.js and it's been while since I built some stuff that I'd actually enjoy. I keep on experimenting with various stuffs(mostly frontend tbh) at my <a href='https://github.com/ni3rav'>GitHub</a> and yeah I'm on <a href='https://twitter.com/ni3rav'>Twitter/X</a> too and lastly I love CATS.",
         image: {
             src: './hero.jpeg',
             alt: 'A cat picture, cause why not'
