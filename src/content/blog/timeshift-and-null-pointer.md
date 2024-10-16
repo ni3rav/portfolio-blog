@@ -1,0 +1,168 @@
+---
+title: Timeshift and The NULL Pointer
+excerpt: Well I faced segmentation fault somwhere else other than LeetCode lol.
+publishDate: 'October 17, 2024'
+---
+<div style="text-align: justify">
+Hello Everynyan!
+
+In this blog, I will discuss an issue I encountered with Timeshift on my distro (i use arch btw). For those unfamiliar with the concept of a NULL pointer, it's worth noting that it was the same issue that led to the recent BSOD epidemic with CrowdStrike.
+
+Before diving in, let me provide a brief introduction to Arch Linux and other distributions, the differences between rolling release and LTS release cycles, Timeshift, and the Btrfs filesystem.
+
+## CHAPTER 1: Exposition
+
+Let’s begin with Arch Linux. Arch is a minimal Linux distribution (distro) that you may have come across in memes like "I use Arch, by the way." The key point is that Arch is so minimal that it doesn't come with a Graphical User Interface (GUI) or Desktop Environment (DE) out of the box; all you get is a shell, and you need to configure everything yourself—essentially making it a DIY distro. In addition to its high configurability, Arch follows a rolling release cycle, which means you can access the latest software and packages as soon as they become available, keeping you on the cutting edge.
+
+You may ask what is Rolling Release ?
+
+Rolling Release: This type of update means your software is always up to date. You get the latest features and improvements as soon as they come out. Arch Linux is a good example of this along with openSUSE (Tumbleweed); it’s like always having the newest version of your favorite app without waiting for a big update.
+
+Long-Term Support (LTS): LTS versions are all about stability. They don’t change much over time, which means they’re reliable and safe to use for a long time. You get updates for several years, but you won’t get the latest features until a new version is released. Fedora, Debian and Mint are some of the popular LTS option, perfect for people who want a dependable system.
+
+While both LTS and Rolling Relase have their shares of Pros and Cons, let's just not get into it and save it for the later :)
+
+Using a rolling release distro like Arch can provide a bleeding-edge experience, but it has a significant downside: the update system may break due to issues with version dependencies or conflicts between packages. To protect yourself from these potential problems, Timeshift can be a valuable tool.
+
+Timeshift is a handy tool for Linux that helps you back up and restore your system. It works by taking snapshots, which are like pictures of your system at a certain point in time. You can set it to automatically take these snapshots regularly or do it manually whenever you want. The cool part is that after the first snapshot, it only saves the changes you make, so it doesn’t take up too much space. If something goes wrong after an update or change, you can easily go back to a previous snapshot and restore your system to how it was before. Timeshift has a simple interface, making it easy for anyone to use, even if you’re not very tech-savvy.
+
+Timeshift can use different methods for creating backups, and two common ones are **rsync** and **Btrfs**.
+
+1. **Rsync:** This is a file-copying tool that works by synchronizing files and directories between locations. When Timeshift uses rsync, it creates backups by copying files from your system to a backup location. It’s flexible and can work with any filesystem, but it doesn’t have built-in snapshot capabilities, meaning it can’t capture the exact state of the system at a specific moment.
+
+2. **Btrfs:** This is a modern filesystem that has built-in snapshot features. When Timeshift uses Btrfs, it can create snapshots almost instantly without needing to copy files. This means it captures the entire state of the system at that moment, making it very efficient and quick. Btrfs snapshots are also space-efficient because they only store changes after the first snapshot.
+
+Quick Note:
+Btrfs (pronounced "butter FS") is a modern filesystem for Linux that’s a bit smarter than older ones like ext4. One of its cool features is "copy-on-write," which means that when you make changes to a file, Btrfs doesn’t just overwrite the old version. Instead, it keeps the original file intact and writes the new version somewhere else. This way, if something goes wrong, you can easily go back to the old version. Btrfs also lets you create snapshots, which are like time-stamped backups of your system, and it has built-in data protection features. Overall, it’s more flexible and efficient than ext4, making it a great choice for users who want to manage their data better!
+
+In summary, rsync is great for copying files but lacks snapshot features, while Btrfs offers efficient snapshots that capture the entire system state quickly and easily.
+
+Since I use Arch Linux (btw), it was absolutely crucial for me to roll with the Btrfs filesystem and Timeshift. I mean, this is the OS I tinker with daily, and let’s be honest—I’ve messed around with so many configurations that I needed a safety net! Timeshift is my trusty sidekick, ready to save my progress and back up my system whenever I get a little too adventurous. I’ve got it all set up to capture snapshots regularly, especially when I’m diving into updates or playing with Pacman and Yay. For those who don’t know, Pacman is the package manager for Arch, and Yay is like Pacman’s cool cousin who makes installing stuff from the Arch User Repository (AUR) a breeze. So, with Timeshift, I can experiment to my heart's content, knowing I can always hit the rewind button if things go sideways!
+
+ALRIGHT THE CHAPTER 1 ENDS HERE LETS GET INTO THE REAL ISSUE
+
+## CHAPTER 2: Rising Issue
+
+So, it turns out I recently switched my Desktop Environment (DE) from GNOME to KDE Plasma because I was having a ton of scaling issues with GNOME. To make the switch, I ran the following commands:
+
+```bash
+sudo pacman -S plasma-desktop gwenview plasma-nm plasma-pa spectacle
+```
+
+I might have missed a few packages while writing this blog, but this was the core of what I needed. After making the switch, I purged GNOME and decided it was time to create a Timeshift snapshot to save my progress!
+
+But then came the plot twist: Timeshift's graphical interface refused to cooperate and threw a gigantic error message right in my face. I won’t bother you with all the details, so here’s the shorter version:
+
+```text
+Oct 16 22:42:27 arch systemd[2363]: app-timeshift\x2dgtk@0b1d345c4e2d49f6bf71a6ac183f2872.service: Main process exited, code=exited, status=127/n/a
+Oct 16 22:42:27 arch timeshift-launcher[44142]: /usr/bin/timeshift-launcher: line 30: 44147 Segmentation fault      (core dumped) pkexec ${app_command}
+Oct 16 22:42:27 arch systemd[2363]: app-timeshift\x2dgtk@0b1d345c4e2d49f6bf71a6ac183f2872.service: Failed with result 'exit-code'.
+Oct 16 22:42:27 arch timeshift-launcher[44211]: /usr/bin/timeshift-launcher: line 18: xhost: command not found
+Oct 16 22:42:27 arch timeshift-launcher[44212]: /usr/bin/timeshift-launcher: line 19: xhost: command not found
+```
+
+This message indicated that I had somehow removed a package called `xhost`, so I reinstalled it by running:
+
+```bash
+yay -S xorg-xhost
+```
+
+Even after doing this, I still couldn’t access Timeshift with the GUI. So, I thought, "Let’s just use it from the command line!" I executed:
+
+```bash
+timeshift --check
+```
+
+(Oh, and just a quick note: I’ve set an alias that translates `timeshift` to `sudo timeshift` because I’m just too lazy to type `sudo` every single time!)
+
+Things didn’t work out as planned, and when I checked the logs, I encountered this error:
+
+```text
+** (process:61402): CRITICAL **: 22:47:10.436: gee_abstract_collection_get_size: assertion 'self != NULL' failed
+```
+
+This turned out to be the actual NULL pointer issue I mentioned earlier in the blog. It indicated that a library called `libgee` was causing the problem. I tried to fix it by running:
+
+```bash
+sudo pacman -S libgee
+```
+
+Unfortunately, the issue still persisted. So, I decided to do a full system update, but that didn’t help either. I even reinstalled Timeshift multiple times and carefully checked all of its dependencies, updating them wherever necessary. But I guess it was just one of those unlucky days!
+
+## CHAPTER 3: Climax
+
+I started pasting my logs into Google ChatGPT Claude like a wild cat, desperately searching for a solution. I scoured several blogs and forums for help until I found my savior in this [Linux Mint Forum](https://forums.linuxmint.com/viewtopic.php?t=279850).
+
+![lsblk output](/q1.png)
+
+An answer from a user named gm10 caught my attention and pointed me to the real issue.
+
+![lsblk output](/q2.png)
+
+It suggested that I might have corrupted Timeshift's config file, so I quickly checked the configuration by running:
+
+```bash
+cat /etc/timeshift.json
+```
+
+Quick note: I have another alias here; the tool underlying `cat` is actually `bat`, but I just love cats, so I set the alias to use `bat`—lol!
+
+Then came the revelation that opened my eyes:
+
+```json
+{
+  "backup_device_uuid": null,
+  "parent_device_uuid": null,
+  "do_first_run": "false",
+  "btrfs_mode": "true",
+  "include_btrfs_home_for_backup": "false",
+  "include_btrfs_home_for_restore": "false",
+  "stop_cron_emails": "false",
+  "schedule_monthly": "false",
+  "schedule_weekly": "false",
+  "schedule_daily": "false",
+  "schedule_hourly": "false",
+  "schedule_boot": "false",
+  "count_monthly": 0,
+  "count_weekly": 0,
+  "count_daily": 0,
+  "count_hourly": 0,
+  "count_boot": 0,
+  "date_format": null,
+  "exclude": [],
+  "exclude-apps": []
+}
+```
+
+If you look closely, the key named `backup_device_uuid` should contain the UUID of the partition that holds all of my Btrfs subvolumes, but it was NULL—i.e., the FREAKY DANGLING POINTER!
+
+## CHAPTER 4: Falling Action
+
+Once I figured out the real issue, I locked into action mode and quickly obtained my disk's UUID by running:
+
+```bash
+lsblk -o NAME,UUID
+```
+
+![lsblk output](/lsblk.png)
+
+In my case, it was `nvme0n1p8`. So, I fired up `nvim` (because I use LazyVim) to edit `timeshift.json` and made the following change:
+
+```json
+"backup_device_uuid": "the real one was here",
+```
+
+After that, I hit `<Esc>` and `ZZ` to save the changes. Then came the moment of truth: I ran `timeshift --check`, and kaboom! It worked perfectly without a single issue. Phew! :)
+
+Immediately after that, I scheduled a few monthly, weekly, and daily snapshots to ensure I had regular backups. I also created an on-demand snapshot just to be extra safe. Now I could tinker with my system without worrying about losing my progress!
+
+## CHAPTER 5: Resolution
+
+Even after fixing the NULL pointer issue and getting Timeshift to work from the command line, I’m still not entirely sure how it happened. The GUI launcher remains broken, but luckily, no major damage was done. It was definitely a close call, and I feel like I dodged a bullet this time. Timeshift is working fine from the terminal, and that’s good enough for now—though this experience reminded me of just how risky rolling releases can be.
+
+For now, I’ve got my snapshots scheduled, and I’m back to tweaking my system (hopefully without breaking anything again). Thanks for sticking around, and I’ll see you in the next post—unless, of course, I "cat" my way into another issue! (lol)
+
+– Bye for now!
+
+Be Khurafati 😼 ;)
+</div>

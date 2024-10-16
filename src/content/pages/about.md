@@ -8,7 +8,7 @@ seo:
     alt: Yet another cat pic
 ---
 
-![Alt text for image](/about.jpeg)
+![Lol](/about.jpeg)
 
 ## Nirav Mehta - A Student and An Aspiring Web Developer 
 
