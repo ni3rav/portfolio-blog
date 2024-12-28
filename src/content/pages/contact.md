@@ -11,4 +11,4 @@ _Email:_
 Feel free to drop me an email at [ni3rav@proton.me](mailto:ni3rav@proton.me), and I'll do my best to respond as soon as possible.
 
 _Social Media:_
-Connect with me on social media as well. Find me on [Twitter](https://twitter.com/ni3rav), [LinkedIn](https://www.linkedin.com/in/nirav-mht/), [Discord](https://discordapp.com/users/745228497357766746) or [Instagram](https://instagram.com/aightnirav)
+Connect with me on social media as well. Find me on [Twitter](https://twitter.com/ni3rav), [LinkedIn](https://www.linkedin.com/in/nirav-mht/), [Discord](https://discordapp.com/users/745228497357766746) or [Instagram](https://instagram.com/ni3rav)

@@ -10,18 +10,16 @@ seo:
 
 ![Lol](/about.jpeg)
 
-## Nirav Mehta - A Student and An Aspiring Web Developer 
-
-**Greetings!** I'm Nirav, computer science student and an aspiring web-developer. I will try to tell you a few things about myself through this website so explore it and have fun!
+**Hello!** I'm Nirav, a Computer Science sophomore and an aspiring web developer. Through this website, I’d like to share a bit about myself, so feel free to explore and enjoy!
 
 ## Skills
 
-I am really comfortable working with  **HTML**, **CSS**, **JavaScript**, and I am learning frameworks/libraries like **React.js** and **Astro.js** for creating dynamic and interactive user interfaces. On the server side, I have tried my hands on Node.js and MongoDB(yes, I tried to be that ***MERN STACK GUY*** lol).
+I am proficient in TypeScript, Next.js, Tailwind CSS, and Motion to create dynamic and interactive user interfaces. On the server side, I have experience with Node.js and MongoDB (yes, I’m that MERN STACK GUY, lol).
 
 ## Continuous Learning
 
-I firmly believe that learning is a continuous process and there is no end to it because *The more I learn, the Lesser*
+I firmly believe that learning is a lifelong journey. _The more I learn, the more I realize how much there is to discover!_
 
 ## Get In Touch
 
-I'd be more than happy to listen to your suggestions, to answer you queries or to collaborate on projects. <br>_Just Hit me UP and let's build amazing stuff together!!!_
+I would love to hear your suggestions, answer your questions, or collaborate on exciting projects. <br> _Just reach out, and let’s create amazing things together!_

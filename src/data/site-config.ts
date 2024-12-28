@@ -42,8 +42,8 @@ const siteConfig: SiteConfig = {
     subtitle: 'The place where I write about the stuff I enjoy',
     description: 'My Blog and Portfolio Website built using Dante theme of Astro.js',
     // image: {
-        // src: '/dante-preview.jpg',
-        // alt: 'Dante - Astro.js and Tailwind CSS theme'
+    // src: '/dante-preview.jpg',
+    // alt: 'Dante - Astro.js and Tailwind CSS theme'
     // },
     headerNavLinks: [
         {
@@ -79,13 +79,9 @@ const siteConfig: SiteConfig = {
         }
     ],
     socialLinks: [
-        // {
-        //     text: 'Dribbble',
-        //     href: 'https://dribbble.com/'
-        // },
         {
             text: 'Instagram',
-            href: 'https://instagram.com/aightnirav'
+            href: 'https://instagram.com/ni3rav'
         },
         {
             text: 'X/Twitter',
@@ -94,7 +90,7 @@ const siteConfig: SiteConfig = {
     ],
     hero: {
         title: 'Oh hello there!',
-        text: "I'm **Nirav**, an aspiring web developer and Computer Science freshman(sophomore in a few days) at Adani University. I've built this website to get my hands on Astro.js and it's been while since I built some stuff that I'd actually enjoy. I keep on experimenting with various stuffs(mostly frontend tbh) at my <a href='https://github.com/ni3rav'>GitHub</a> and yeah I'm on <a href='https://twitter.com/ni3rav'>Twitter/X</a> too and lastly I love CATS.",
+        text: "I am a passionate software developer studying Computer Science at Adani University. I enjoy building web applications and experimenting with frontend technologies. I like cats!",
         image: {
             src: './hero.jpeg',
             alt: 'A cat picture, cause why not'
