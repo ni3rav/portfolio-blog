@@ -2,7 +2,7 @@
 title: 'Portfolio/Blog'
 description: The same thing you are looking at
 publishDate: 'Apr 24, 2024'
-isFeatured: true
+isFeatured: false
 ---
 
 
