@@ -34,6 +34,12 @@ export default function Navbar() {
           >
             <span className="text-purple-500">#</span>projects
           </Link>
+          <Link
+            href="/blogs"
+            className="hover:text-purple-500 transition-colors"
+          >
+            <span className="text-purple-500">#</span>blogs
+          </Link>
 
           <Link
             href="/about-me"

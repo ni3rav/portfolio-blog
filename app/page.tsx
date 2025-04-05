@@ -2,12 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
 import ProjectCard from "@/components/project-card";
-import { projects } from "@/lib/homePageContent";
+import { projectsPrev } from "@/lib/projects";
+import { blogsPrev } from "@/lib/blogs";
 
 export default function Home() {
   return (
     <main>
       <Navbar />
+
       {/* Hero Section */}
       <section className="py-12 md:py-20 flex flex-col md:flex-row items-center justify-between gap-8">
         <div className="w-full md:w-1/2 cursor-default">
@@ -35,6 +37,7 @@ export default function Home() {
             About Me =&gt;
           </Link>
         </div>
+
         <div className="w-full md:w-1/2 relative">
           <div className="relative max-w-[300px] mx-auto md:mx-0 md:ml-auto">
             <div className="border-2 border-purple-500 absolute top-[-20px] right-[-20px] w-full h-full"></div>
@@ -54,7 +57,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Projects Section */}
+      {/* Projects Preview Section */}
       <section className="py-16">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-2xl md:text-3xl font-bold">
@@ -70,13 +73,47 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project) => (
+          {projectsPrev.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
       </section>
 
-      {/* Blog Section Preview */}
+      {/* Blog Preview Section */}
+      <section className="py-16">
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold">
+            <span className="text-purple-500">#</span>blog
+          </h2>
+          <div className="flex-grow mx-4 h-px bg-gray-700"></div>
+          <Link
+            href="/blogs"
+            className="text-gray-400 hover:text-white whitespace-nowrap"
+          >
+            View all --&gt;
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {blogsPrev.map((blog) => (
+            <Link
+              key={blog.id}
+              href={`/blogs/${blog.id}`}
+              className="block group"
+            >
+              <div className="border border-gray-700 hover:border-purple-500 transition-colors h-full">
+                <div className="p-4">
+                  <p className="text-gray-400 mb-2">{blog.date}</p>
+                  <h3 className="text-xl font-semibold mb-2 group-hover:text-purple-500 transition-colors">
+                    {blog.title}
+                  </h3>
+                  <p className="text-gray-400">{blog.excerpt}</p>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
     </main>
   );
 }
