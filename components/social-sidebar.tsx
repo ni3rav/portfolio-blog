@@ -11,7 +11,7 @@ import clsx from "clsx";
 const socialLinks = [
   {
     label: "LinkedIn",
-    href: "https://linkedin.com/in/ni3rav",
+    href: "https://linkedin.com/in/nirav-mht",
     icon: Linkedin,
   },
   {
