@@ -10,7 +10,6 @@ export default function Home() {
   return (
     <main>
       <Navbar />
-
       {/* Hero Section */}
       <section className="py-12 md:py-20 flex flex-col md:flex-row items-center justify-between gap-8">
         <div className="w-full md:w-1/2 cursor-default">

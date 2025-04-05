@@ -1,54 +1,20 @@
-import Navbar from "@/components/navbar"
-import Link from "next/link"
-import Image from "next/image"
-import { ArrowLeft, ExternalLink, Github } from "lucide-react"
+"use client";
 
-// This would typically come from a CMS or database
+import { useParams } from "next/navigation";
+import Navbar from "@/components/navbar";
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowLeft, ExternalLink, Github } from "lucide-react";
+import { projects } from "@/lib/projects";
+
 const getProject = (id: string) => {
-  const projects = {
-    "1": {
-      id: 1,
-      title: "Deplois",
-      description: "deploy your dream",
-      fullDescription:
-        "A platform that simplifies the deployment process for developers, allowing them to focus on coding rather than infrastructure management.",
-      technologies: ["React", "Node.js", "Docker", "AWS"],
-      image: "/placeholder.svg?height=600&width=800",
-      demoUrl: "https://example.com/demo",
-      githubUrl: "https://github.com/example/deplois",
-      year: "2024",
-    },
-    "2": {
-      id: 2,
-      title: "Pixel Battle",
-      description: "Interactive pixel game",
-      fullDescription:
-        "A collaborative pixel art canvas where users can place colored pixels to create artwork together in real-time.",
-      technologies: ["Vue.js", "WebSockets", "Express", "MongoDB"],
-      image: "/placeholder.svg?height=600&width=800",
-      demoUrl: "https://example.com/demo",
-      githubUrl: "https://github.com/example/pixel-battle",
-      year: "2023",
-    },
-    "3": {
-      id: 3,
-      title: "Feedcrush",
-      description: "українська блогінгова платформа для розробників",
-      fullDescription:
-        "A Ukrainian blogging platform specifically designed for developers to share knowledge, tutorials, and experiences.",
-      technologies: ["Next.js", "TypeScript", "Prisma", "PostgreSQL"],
-      image: "/placeholder.svg?height=600&width=800",
-      demoUrl: "https://example.com/demo",
-      githubUrl: "https://github.com/example/feedcrush",
-      year: "2023",
-    },
-  }
+  return projects[id as keyof typeof projects];
+};
 
-  return projects[id as keyof typeof projects]
-}
-
-export default function ProjectDetail({ params }: { params: { id: string } }) {
-  const project = getProject(params.id)
+export default function ProjectDetail() {
+  const params = useParams();
+  const id = params?.id as string;
+  const project = getProject(id);
 
   if (!project) {
     return (
@@ -61,7 +27,7 @@ export default function ProjectDetail({ params }: { params: { id: string } }) {
           </Link>
         </div>
       </main>
-    )
+    );
   }
 
   return (
@@ -69,19 +35,29 @@ export default function ProjectDetail({ params }: { params: { id: string } }) {
       <Navbar />
 
       <article className="py-16">
-        <Link href="/projects" className="flex items-center text-gray-400 hover:text-purple-500 mb-8 group">
+        <Link
+          href="/projects"
+          className="flex items-center text-gray-400 hover:text-purple-500 mb-8 group"
+        >
           <ArrowLeft className="mr-2 h-4 w-4 group-hover:translate-x-[-2px] transition-transform" />
           Back to all projects
         </Link>
 
         <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">{project.title}</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">
+            {project.title}
+          </h1>
           <p className="text-gray-400 text-lg">{project.description}</p>
         </div>
 
         <div className="mb-12">
           <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden border border-gray-700">
-            <Image src={project.image || "/placeholder.svg"} alt={project.title} fill className="object-cover" />
+            <Image
+              src={project.image || "/placeholder.svg"}
+              alt={project.title}
+              fill
+              className="object-cover"
+            />
           </div>
         </div>
 
@@ -136,6 +112,5 @@ export default function ProjectDetail({ params }: { params: { id: string } }) {
         </div>
       </article>
     </main>
-  )
+  );
 }
-
