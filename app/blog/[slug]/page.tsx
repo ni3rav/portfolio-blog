@@ -1,6 +1,6 @@
-import Navbar from "@/components/navbar"
-import Link from "next/link"
-import { ArrowLeft, Share2, Calendar, User } from "lucide-react"
+import Navbar from "@/components/navbar";
+import Link from "next/link";
+import { ArrowLeft, Share2, Calendar, User } from "lucide-react";
 
 // This would typically come from a CMS or database
 const getBlogPost = (slug: string) => {
@@ -8,7 +8,7 @@ const getBlogPost = (slug: string) => {
     "web-design-trends": {
       title: "Web Design Trends in 2025",
       date: "April 22, 2025",
-      author: "Elias",
+      author: "Nirav",
       content: `
         <p>The world of web design is constantly evolving, with new trends emerging every year. In 2025, we're seeing a shift towards more immersive and interactive experiences, with a focus on accessibility and performance.</p>
         
@@ -34,7 +34,7 @@ const getBlogPost = (slug: string) => {
     "frontend-frameworks": {
       title: "Comparing Modern Frontend Frameworks",
       date: "March 15, 2025",
-      author: "Elias",
+      author: "Nirav",
       content: `
         <p>Choosing the right frontend framework for your project can be challenging with so many options available. Let's compare three of the most popular frameworks in 2025: React, Vue, and Svelte.</p>
         
@@ -95,7 +95,7 @@ const getBlogPost = (slug: string) => {
     "responsive-design": {
       title: "The Art of Responsive Design",
       date: "February 28, 2025",
-      author: "Elias",
+      author: "Nirav",
       content: `
         <p>Responsive design has evolved from a nice-to-have to an absolute necessity. With users accessing websites from an ever-growing variety of devices, creating interfaces that adapt seamlessly is crucial for success.</p>
         
@@ -139,13 +139,13 @@ const getBlogPost = (slug: string) => {
       `,
       tags: ["responsive", "design", "css"],
     },
-  }
+  };
 
-  return posts[slug as keyof typeof posts]
-}
+  return posts[slug as keyof typeof posts];
+};
 
 export default function BlogPost({ params }: { params: { slug: string } }) {
-  const post = getBlogPost(params.slug)
+  const post = getBlogPost(params.slug);
 
   if (!post) {
     return (
@@ -158,7 +158,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
           </Link>
         </div>
       </main>
-    )
+    );
   }
 
   return (
@@ -166,7 +166,10 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
       <Navbar />
 
       <article className="py-16 max-w-3xl mx-auto">
-        <Link href="/blog" className="flex items-center text-gray-400 hover:text-purple-500 mb-8 group">
+        <Link
+          href="/blog"
+          className="flex items-center text-gray-400 hover:text-purple-500 mb-8 group"
+        >
           <ArrowLeft className="mr-2 h-4 w-4 group-hover:translate-x-[-2px] transition-transform" />
           Back to all posts
         </Link>
@@ -194,7 +197,10 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
           <h3 className="text-lg font-semibold mb-3">Tags:</h3>
           <div className="flex flex-wrap gap-2">
             {post.tags.map((tag) => (
-              <span key={tag} className="text-sm text-gray-400 border border-gray-700 px-3 py-1">
+              <span
+                key={tag}
+                className="text-sm text-gray-400 border border-gray-700 px-3 py-1"
+              >
                 #{tag}
               </span>
             ))}
@@ -217,6 +223,5 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
         </div>
       </article>
     </main>
-  )
+  );
 }
-

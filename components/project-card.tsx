@@ -3,7 +3,7 @@ import Link from "next/link"
 
 interface ProjectCardProps {
   project: {
-    id: number
+    id: string
     title: string
     description: string
     image: string

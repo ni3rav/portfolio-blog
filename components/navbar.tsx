@@ -11,7 +11,7 @@ export default function Navbar() {
     <nav className="py-6">
       <div className="flex justify-between items-center">
         <Link href="/" className="text-xl font-bold flex items-center">
-          <span className="mr-2">⬛</span> Elias
+          <span className="mr-2">⬛</span> Nirav
         </Link>
 
         {/* Mobile menu button */}
