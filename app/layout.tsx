@@ -11,10 +11,8 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Nirav - Web Designer & Front-end Developer",
-  description:
-    "Portfolio website of Nirav, a web designer and front-end developer",
-  generator: "v0.dev",
+  title: "Nirav",
+  description: "Yup this is the part I'd call mine",
 };
 
 export default function RootLayout({

@@ -107,7 +107,6 @@ Oct 16 22:42:27 arch timeshift-launcher[44212]: /usr/bin/timeshift-launcher: lin
 <p>Once I figured out the real issue, I locked into action mode and quickly obtained my disk’s UUID by running:</p>
 <pre class=" language-bash"><code class="prism  language-bash">lsblk -o NAME,UUID
 </code></pre>
-<p><img src="/lsblk.png" alt="lsblk output"></p>
 <p>In my case, it was <code>nvme0n1p8</code>. So, I fired up <code>nvim</code> (because I use LazyVim) to edit <code>timeshift.json</code> and made the following change:</p>
 <pre class=" language-json"><code class="prism  language-json"><span class="token string">"backup_device_uuid"</span><span class="token punctuation">:</span> <span class="token string">"the real one was here"</span><span class="token punctuation">,</span>
 </code></pre>
@@ -171,9 +170,7 @@ Oct 16 22:42:27 arch timeshift-launcher[44212]: /usr/bin/timeshift-launcher: lin
 <p>Unfortunately, the issue still persisted. So, I decided to do a full system update, but that didn’t help either. I even reinstalled Timeshift multiple times and carefully checked all of its dependencies, updating them wherever necessary. But I guess it was just one of those unlucky days!</p>
 <h2 id="chapter-3-climax-1">CHAPTER 3: Climax</h2>
 <p>I started pasting my logs into Google ChatGPT Claude like a wild cat, desperately searching for a solution. I scoured several blogs and forums for help until I found my savior in this <a href="https://forums.linuxmint.com/viewtopic.php?t=279850">Linux Mint Forum</a>.</p>
-<p><img src="/q1.png" alt="lsblk output"></p>
 <p>An answer from a user named gm10 caught my attention and pointed me to the real issue.</p>
-<p><img src="/q2.png" alt="lsblk output"></p>
 <p>It suggested that I might have corrupted Timeshift’s config file, so I quickly checked the configuration by running:</p>
 <pre class=" language-bash"><code class="prism  language-bash"><span class="token function">cat</span> /etc/timeshift.json
 </code></pre>
@@ -207,7 +204,6 @@ Oct 16 22:42:27 arch timeshift-launcher[44212]: /usr/bin/timeshift-launcher: lin
 <p>Once I figured out the real issue, I locked into action mode and quickly obtained my disk’s UUID by running:</p>
 <pre class=" language-bash"><code class="prism  language-bash">lsblk -o NAME,UUID
 </code></pre>
-<p><img src="/lsblk.png" alt="lsblk output"></p>
 <p>In my case, it was <code>nvme0n1p8</code>. So, I fired up <code>nvim</code> (because I use LazyVim) to edit <code>timeshift.json</code> and made the following change:</p>
 <pre class=" language-json"><code class="prism  language-json"><span class="token string">"backup_device_uuid"</span><span class="token punctuation">:</span> <span class="token string">"the real one was here"</span><span class="token punctuation">,</span>
 </code></pre>
