@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Cat, Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,7 +11,10 @@ export default function Navbar() {
     <nav className="py-6">
       <div className="flex justify-between items-center">
         <Link href="/" className="text-xl font-bold flex items-center">
-          <span className="mr-2">⬛</span> Nirav
+          <span className="mr-2">
+            <Cat size={32} className="text-purple-600" strokeWidth={3} />
+          </span>{" "}
+          Nirav
         </Link>
 
         {/* Mobile menu button */}
@@ -42,10 +45,17 @@ export default function Navbar() {
           </Link>
 
           <Link
-            href="/about-me"
+            href="/about"
             className="hover:text-purple-500 transition-colors"
           >
-            <span className="text-purple-500">#</span>about-me
+            <span className="text-purple-500">#</span>about
+          </Link>
+
+          <Link
+            href="/resume.pdf"
+            className="hover:text-purple-500 transition-colors"
+          >
+            <span className="text-purple-500">#</span>resume
           </Link>
         </div>
       </div>
@@ -69,11 +79,19 @@ export default function Navbar() {
           </Link>
 
           <Link
-            href="/about-me"
+            href="/about"
             className="hover:text-purple-500 transition-colors"
             onClick={() => setIsOpen(false)}
           >
-            <span className="text-purple-500">#</span>about-me
+            <span className="text-purple-500">#</span>about
+          </Link>
+
+          <Link
+            href="/resume.pdf"
+            className="hover:text-purple-500 transition-colors"
+            onClick={() => setIsOpen(false)}
+          >
+            <span className="text-purple-500">#</span>resume
           </Link>
         </div>
       )}

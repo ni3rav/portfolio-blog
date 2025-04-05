@@ -6,32 +6,36 @@ export default function AboutMe() {
   const skills = [
     {
       category: "Languages",
-      items: ["HTML", "CSS", "JavaScript", "TypeScript", "Python"],
+      items: ["HTML", "CSS", "JavaScript", "TypeScript", "Python", "Java", "C"],
     },
     {
-      category: "Frameworks",
-      items: ["React", "Next.js", "Vue", "Express", "Tailwind CSS"],
-    },
-    { category: "Tools", items: ["Git", "Figma", "VS Code", "Docker", "AWS"] },
-    {
-      category: "Other",
+      category: "Frontend",
       items: [
-        "Responsive Design",
-        "SEO",
-        "Accessibility",
-        "Performance Optimization",
+        "React",
+        "Next.js",
+        "Tailwind CSS",
+        "Bootstrap",
+        "Astro",
+        "ShadCN",
       ],
+    },
+    {
+      category: "Backend",
+      items: ["mongoDB", "ExpressJS", "NodeJS", "Flask", "FastAPI"],
+    },
+    {
+      category: "Tools",
+      items: ["VS Code", "Z-Shell", "Powershell", "Postman", "Git"],
     },
   ];
 
   return (
     <main>
       <Navbar />
-
       {/* About Header */}
       <section className="py-16">
         <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          <span className="text-purple-500">#</span>about-me
+          <span className="text-purple-500">#</span>about
         </h1>
         <p className="text-gray-400">Get to know me and my work</p>
       </section>
@@ -42,32 +46,31 @@ export default function AboutMe() {
           <h2 className="text-2xl font-bold mb-6">Who am I?</h2>
           <div className="space-y-4 text-gray-300">
             <p>
-              Hello! I'm Nirav, a web designer and front-end developer based in
-              [Your Location]. I specialize in creating responsive,
-              user-friendly websites that combine aesthetic appeal with
-              functional design.
+              Hello! I'm Nirav, a fullstack developer and computer science
+              sophomore at Adani University. I specialize in building modern web
+              applications using React, Next.js, and TypeScript. My passion lies
+              in creating efficient, scalable solutions and learning new
+              technologies.
             </p>
             <p>
-              With over 5 years of experience in the industry, I've worked on a
-              variety of projects ranging from small business websites to
-              complex web applications. My approach focuses on clean code,
-              intuitive user interfaces, and performance optimization.
+              Having been exposed to computers from a young age, I stumbled upon
+              coding which sparked my curiosity. After exploring various
+              programming domains, I discovered my true passion in web
+              development. The ability to create interactive and impactful user
+              experiences through code continues to drive my enthusiasm.
             </p>
             <p>
-              When I'm not coding, you can find me exploring new design trends,
-              contributing to open-source projects, or hiking in the mountains.
-              I believe in continuous learning and staying updated with the
-              latest technologies in the ever-evolving web development
-              landscape.
+              When I'm not coding, you can find me watching cat videos because{" "}
+              <i>i like cats</i>
             </p>
           </div>
 
           <div className="mt-8">
             <Link
-              href="/contact"
+              href="/resume.pdf"
               className="inline-block border border-purple-500 text-white px-6 py-3 hover:bg-purple-500/10 transition-colors"
             >
-              Contact ME =&gt;
+              My Resume =&gt;
             </Link>
           </div>
         </div>
@@ -76,7 +79,7 @@ export default function AboutMe() {
           <div className="relative max-w-[300px] mx-auto md:mx-0">
             <div className="border-2 border-purple-500 absolute top-[-20px] right-[-20px] w-full h-full"></div>
             <Image
-              src="/placeholder.svg?height=400&width=300"
+              src="/hero.jpeg"
               alt="Nirav profile"
               width={300}
               height={400}
@@ -95,7 +98,7 @@ export default function AboutMe() {
           <div className="flex-grow mx-4 h-px bg-gray-700"></div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 gap-6">
           {skills.map((skillGroup) => (
             <div
               key={skillGroup.category}
@@ -123,7 +126,7 @@ export default function AboutMe() {
       <section className="mb-16">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-2xl md:text-3xl font-bold">
-            <span className="text-purple-500">#</span>experience
+            <span className="text-purple-500">#</span>education
           </h2>
           <div className="flex-grow mx-4 h-px bg-gray-700"></div>
         </div>
@@ -131,17 +134,17 @@ export default function AboutMe() {
         <div className="space-y-8">
           <div className="border-l-2 border-purple-500 pl-6 relative">
             <div className="absolute w-3 h-3 bg-purple-500 rounded-full left-[-7px] top-1"></div>
-            <h3 className="text-xl font-bold">Senior Front-end Developer</h3>
-            <p className="text-purple-500">
-              Tech Solutions Inc. | 2022 - Present
-            </p>
+            <h3 className="text-xl font-bold">
+              Computer Science and Engineering (AI & ML)
+            </h3>
+            <p className="text-purple-500">Adani University | 2023 - 2027</p>
             <p className="text-gray-300 mt-2">
               Leading front-end development for enterprise clients, implementing
               modern web technologies and mentoring junior developers.
             </p>
           </div>
 
-          <div className="border-l-2 border-gray-700 pl-6 relative">
+          {/* <div className="border-l-2 border-gray-700 pl-6 relative">
             <div className="absolute w-3 h-3 bg-gray-700 rounded-full left-[-7px] top-1"></div>
             <h3 className="text-xl font-bold">Web Designer</h3>
             <p className="text-purple-500">Creative Agency | 2020 - 2022</p>
@@ -150,17 +153,7 @@ export default function AboutMe() {
               various industries, focusing on user experience and brand
               consistency.
             </p>
-          </div>
-
-          <div className="border-l-2 border-gray-700 pl-6 relative">
-            <div className="absolute w-3 h-3 bg-gray-700 rounded-full left-[-7px] top-1"></div>
-            <h3 className="text-xl font-bold">Junior Developer</h3>
-            <p className="text-purple-500">Web Innovations | 2018 - 2020</p>
-            <p className="text-gray-300 mt-2">
-              Collaborated with the development team to build and maintain
-              client websites, gaining experience in front-end technologies.
-            </p>
-          </div>
+          </div> */}
         </div>
       </section>
     </main>
