@@ -1,27 +1,3 @@
-export const blogs = [
-  {
-    href: "/blog/web-design-trends",
-    date: "April 22, 2025",
-    title: "Web Design Trends in 2025",
-    description:
-      "Exploring the latest trends in web design and how they're shaping the digital landscape.",
-  },
-  {
-    href: "/blog/frontend-frameworks",
-    date: "March 15, 2025",
-    title: "Comparing Modern Frontend Frameworks",
-    description:
-      "A deep dive into React, Vue, and Svelte - which one should you choose for your next project?",
-  },
-  {
-    href: "/blog/responsive-design",
-    date: "February 28, 2025",
-    title: "The Art of Responsive Design",
-    description:
-      "Creating websites that look great on any device - techniques and best practices.",
-  },
-];
-
 export const projects = [
   {
     id: "everynyan",

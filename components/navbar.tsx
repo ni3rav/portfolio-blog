@@ -34,12 +34,7 @@ export default function Navbar() {
           >
             <span className="text-purple-500">#</span>projects
           </Link>
-          <Link
-            href="/blog"
-            className="hover:text-purple-500 transition-colors"
-          >
-            <span className="text-purple-500">#</span>blog
-          </Link>
+
           <Link
             href="/about-me"
             className="hover:text-purple-500 transition-colors"
@@ -66,13 +61,7 @@ export default function Navbar() {
           >
             <span className="text-purple-500">#</span>projects
           </Link>
-          <Link
-            href="/blog"
-            className="hover:text-purple-500 transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            <span className="text-purple-500">#</span>blog
-          </Link>
+
           <Link
             href="/about-me"
             className="hover:text-purple-500 transition-colors"
