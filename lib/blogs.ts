@@ -17,7 +17,7 @@ export const blogs = {
     title: "Timeshift and The NULL Pointer",
     date: "October 17, 2024",
     image: "/blogs/timeshift.png",
-    content: `      
+    content: `     
 <p>Hello Everynyan!</p>
 <p>In this blog, I will discuss an issue I encountered with Timeshift on my distro (i use arch btw). For those unfamiliar with the concept of a NULL pointer, it’s worth noting that it was the same issue that led to the recent BSOD epidemic with CrowdStrike, A recent example is the vulnerability found in TOR (which is based on Firefox), involving a use-after-free exploit in animation timelines. It turns out that the NULL pointer was identified as the culprit behind this issue.</p>
 <p>Before diving in, let me provide a brief introduction to Arch Linux and other distributions, the differences between rolling release and LTS release cycles, Timeshift, and the Btrfs filesystem.</p>

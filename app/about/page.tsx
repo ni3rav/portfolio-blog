@@ -138,9 +138,10 @@ export default function AboutMe() {
               Computer Science and Engineering (AI & ML)
             </h3>
             <p className="text-purple-500">Adani University | 2023 - 2027</p>
-            <p className="text-gray-300 mt-2">
-              Leading front-end development for enterprise clients, implementing
-              modern web technologies and mentoring junior developers.
+            <p className="text-gray-300">
+              <b>Coursework: </b> Data Structures, Analysis and Design of
+              Algorithms, Database Management Systems, Computer Networks,
+              Operating Systems
             </p>
           </div>
 
