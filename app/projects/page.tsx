@@ -1,8 +1,10 @@
 import Navbar from "@/components/navbar";
 import ProjectCard from "@/components/project-card";
-import { projectsPrev } from "@/lib/projects";
+import { getAllProjects } from "@/lib/getProjects";
 
 export default function Projects() {
+  const projects = getAllProjects();
+
   return (
     <main>
       <Navbar />
@@ -19,7 +21,7 @@ export default function Projects() {
 
       {/* Projects Grid */}
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-        {projectsPrev.map((project) => (
+        {projects.map((project) => (
           <ProjectCard key={project.id} project={project} />
         ))}
       </section>
