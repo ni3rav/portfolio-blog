@@ -2,10 +2,44 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
 import ProjectCard from "@/components/project-card";
-import { projectsPrev } from "@/lib/projects";
-import { blogsPrev } from "@/lib/blogs";
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+
+// Helper to get project previews from MDX files
+function getProjectPreviews() {
+  const dir = path.join(process.cwd(), "content/projects");
+  if (!fs.existsSync(dir)) return [];
+  return fs
+    .readdirSync(dir)
+    .filter((file) => file.endsWith(".mdx") || file.endsWith(".md"))
+    .map((file) => {
+      const id = file.replace(/\.mdx?$/, "");
+      const { data } = matter(fs.readFileSync(path.join(dir, file), "utf8"));
+      return { id, ...data };
+    })
+    .slice(0, 3); // Show only first 3
+}
+
+// Helper to get blog previews from MDX files
+function getBlogPreviews() {
+  const dir = path.join(process.cwd(), "content/blogs");
+  if (!fs.existsSync(dir)) return [];
+  return fs
+    .readdirSync(dir)
+    .filter((file) => file.endsWith(".mdx") || file.endsWith(".md"))
+    .map((file) => {
+      const id = file.replace(/\.mdx?$/, "");
+      const { data } = matter(fs.readFileSync(path.join(dir, file), "utf8"));
+      return { id, ...data };
+    })
+    .slice(0, 3); // Show only first 3
+}
 
 export default function Home() {
+  const projectsPrev = getProjectPreviews();
+  const blogsPrev = getBlogPreviews();
+
   return (
     <main>
       <Navbar />
@@ -73,7 +107,7 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projectsPrev.map((project) => (
+          {projectsPrev.map((project: any) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
@@ -95,7 +129,7 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {blogsPrev.map((blog) => (
+          {blogsPrev.map((blog: any) => (
             <Link
               key={blog.id}
               href={`/blogs/${blog.id}`}
@@ -107,7 +141,7 @@ export default function Home() {
                   <h3 className="text-xl font-semibold mb-2 group-hover:text-purple-500 transition-colors">
                     {blog.title}
                   </h3>
-                  <p className="text-gray-400">{blog.excerpt}</p>
+                  <p className="text-gray-400">{blog.description}</p>
                 </div>
               </div>
             </Link>
