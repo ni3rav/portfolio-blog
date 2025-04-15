@@ -1,8 +1,27 @@
 import Navbar from "@/components/navbar";
 import Link from "next/link";
-import { blogsPrev } from "@/lib/blogs";
+import { getAllBlogs } from "@/lib/getBlogs";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Blogs | by Nirav",
+  description: "Thoughts, ideas, and insights on web design and development.",
+  openGraph: {
+    title: "Blogs | by Nirav",
+    description: "Thoughts, ideas, and insights on web design and development.",
+    url: "/blogs",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blogs | by Nirav",
+    description: "Thoughts, ideas, and insights on web design and development.",
+  },
+};
 
 export default function BlogPage() {
+  const blogs = getAllBlogs();
+
   return (
     <main>
       <Navbar />
@@ -19,10 +38,10 @@ export default function BlogPage() {
 
       {/* Blog Cards */}
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-        {blogsPrev.map((post) => (
+        {blogs.map((post) => (
           <Link
-            key={post.id}
-            href={`/blogs/${post.id}`}
+            key={post.slug}
+            href={`/blogs/${post.slug}`}
             className="block group h-full"
             aria-label={`Read blog post: ${post.title}`}
           >
@@ -33,10 +52,10 @@ export default function BlogPage() {
                   {post.title}
                 </h3>
                 <p className="text-gray-400 mb-4 flex-grow">
-                  {post.excerpt || "No excerpt available."}
+                  {post.description || "No excerpt available."}
                 </p>
                 <div className="flex flex-wrap gap-2 mt-auto">
-                  {post.tags?.map((tag) => (
+                  {post.tags?.map((tag: string) => (
                     <span
                       key={tag}
                       className="text-sm text-gray-400 border border-gray-700 px-2 py-1"
