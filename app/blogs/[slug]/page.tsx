@@ -7,12 +7,40 @@ import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import type { Metadata } from "next";
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  // @ts-ignore
+  if (typeof params.then === "function") {
+    params = await params;
+  }
+  const blogPath = path.join(process.cwd(), "content/blogs", `${params.slug}.mdx`);
+  if (!fs.existsSync(blogPath)) {
+    return {};
+  }
+  const file = fs.readFileSync(blogPath, "utf8");
+  const { data } = matter(file);
+  return {
+    title: data.title || params.slug,
+    description: data.description || "",
+    openGraph: {
+      title: data.title || params.slug,
+      description: data.description || "",
+      images: data.image ? [{ url: data.image }] : undefined,
+    },
+  };
+}
 
 export default async function BlogPost({
   params,
 }: {
   params: { slug: string };
 }) {
+  // @ts-ignore
+  if (typeof params.then === "function") {
+    params = await params;
+  }
+
   const blogPath = path.join(
     process.cwd(),
     "content/blogs",

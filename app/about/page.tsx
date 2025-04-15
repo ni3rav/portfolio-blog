@@ -1,6 +1,23 @@
 import Navbar from "@/components/navbar";
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About | Nirav",
+  description: "Get to know Nirav and his work as a fullstack developer.",
+  openGraph: {
+    title: "About | Nirav",
+    description: "Get to know Nirav and his work as a fullstack developer.",
+    url: "/about",
+    type: "profile",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About | Nirav",
+    description: "Get to know Nirav and his work as a fullstack developer.",
+  },
+};
 
 export default function AboutMe() {
   const skills = [

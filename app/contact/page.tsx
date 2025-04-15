@@ -1,5 +1,25 @@
-import Navbar from "@/components/navbar"
-import { Mail, MapPin, Send } from "lucide-react"
+import Navbar from "@/components/navbar";
+import { Mail, MapPin, Send } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contact | Nirav",
+  description:
+    "Get in touch with Nirav for freelance opportunities and collaborations.",
+  openGraph: {
+    title: "Contact | Nirav",
+    description:
+      "Get in touch with Nirav for freelance opportunities and collaborations.",
+    url: "/contact",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact | Nirav",
+    description:
+      "Get in touch with Nirav for freelance opportunities and collaborations.",
+  },
+};
 
 export default function Contact() {
   return (
@@ -18,8 +38,9 @@ export default function Contact() {
       <section className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
         <div>
           <p className="text-gray-300 mb-8">
-            I'm interested in freelance opportunities and collaborations. Whether you have a question or just want to
-            say hi, I'll do my best to get back to you!
+            I'm interested in freelance opportunities and collaborations.
+            Whether you have a question or just want to say hi, I'll do my best
+            to get back to you!
           </p>
 
           <div className="space-y-4">
@@ -99,6 +120,5 @@ export default function Contact() {
         </div>
       </section>
     </main>
-  )
+  );
 }
-

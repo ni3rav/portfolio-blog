@@ -1,6 +1,23 @@
 import Navbar from "@/components/navbar";
 import ProjectCard from "@/components/project-card";
 import { getAllProjects } from "@/lib/getProjects";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Projects | by Nirav",
+  description: "A selection of my recent work and personal projects.",
+  openGraph: {
+    title: "Projects | by Nirav",
+    description: "A selection of my recent work and personal projects.",
+    url: "/projects",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Projects | by Nirav",
+    description: "A selection of my recent work and personal projects.",
+  },
+};
 
 export default function Projects() {
   const projects = getAllProjects();

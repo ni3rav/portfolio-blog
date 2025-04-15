@@ -1,6 +1,23 @@
 import Navbar from "@/components/navbar";
 import Link from "next/link";
 import { getAllBlogs } from "@/lib/getBlogs";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Blogs | by Nirav",
+  description: "Thoughts, ideas, and insights on web design and development.",
+  openGraph: {
+    title: "Blogs | by Nirav",
+    description: "Thoughts, ideas, and insights on web design and development.",
+    url: "/blogs",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blogs | by Nirav",
+    description: "Thoughts, ideas, and insights on web design and development.",
+  },
+};
 
 export default function BlogPage() {
   const blogs = getAllBlogs();

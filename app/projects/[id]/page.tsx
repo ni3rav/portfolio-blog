@@ -7,12 +7,49 @@ import Image from "next/image";
 import { ArrowLeft, ExternalLink, Github } from "lucide-react";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import type { Metadata } from "next";
+
+// Dynamic metadata generation
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  // @ts-ignore
+  if (typeof params.then === "function") {
+    params = await params;
+  }
+  const projectPath = path.join(
+    process.cwd(),
+    "content/projects",
+    `${params.id}.mdx`
+  );
+  if (!fs.existsSync(projectPath)) {
+    return {};
+  }
+  const file = fs.readFileSync(projectPath, "utf8");
+  const { data } = matter(file);
+  return {
+    title: data.title || params.id,
+    description: data.description || "",
+    openGraph: {
+      title: data.title || params.id,
+      description: data.description || "",
+      images: data.image ? [{ url: data.image }] : undefined,
+    },
+  };
+}
 
 export default async function ProjectDetail({
   params,
 }: {
   params: { id: string };
 }) {
+  // @ts-ignore
+  if (typeof params.then === "function") {
+    params = await params;
+  }
+
   const projectPath = path.join(
     process.cwd(),
     "content/projects",
