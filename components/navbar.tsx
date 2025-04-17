@@ -38,6 +38,12 @@ export default function Navbar() {
             <span className="text-purple-500">#</span>projects
           </Link>
           <Link
+            href="/stuff"
+            className="hover:text-purple-500 transition-colors"
+          >
+            <span className="text-purple-500">#</span>stuff
+          </Link>
+          <Link
             href="/blogs"
             className="hover:text-purple-500 transition-colors"
           >
@@ -76,6 +82,20 @@ export default function Navbar() {
             onClick={() => setIsOpen(false)}
           >
             <span className="text-purple-500">#</span>projects
+          </Link>
+          <Link
+            href="/blogs"
+            className="hover:text-purple-500 transition-colors"
+            onClick={() => setIsOpen(false)}
+          >
+            <span className="text-purple-500">#</span>blogs
+          </Link>
+          <Link
+            href="/stuff"
+            className="hover:text-purple-500 transition-colors"
+            onClick={() => setIsOpen(false)}
+          >
+            <span className="text-purple-500">#</span>stuff
           </Link>
 
           <Link
