@@ -1,0 +1,158 @@
+---
+title: "Keyboard shortcuts in React application"
+date: "2024-04-18"
+tags: ["react", "frontend", "typescript", "timeshift"]
+image: "/blogs/keyboard-shorcut/cover.png"
+author: "Nirav"
+description: "A simple guide to implement keyboard shortcuts in React applications without having to use any third-party libraries."
+---
+
+Hello everyone!
+
+It's been a while since I wrote my last blog. I was busy with some personal projects and learning new things. But now I'm back with a new blog post and a revamped portfolio/blog website.
+
+While working on my project [sentio](https://sention.ni3rav.me), I thought of implementing keyboard shortcuts for various tasks like changing the theme of the editor, changing the font size, etc. I considered using a third-party library, but then I thought, why not implement it from scratch since the complexity of my app isn't that high? It should be easy to do so.
+
+Alright, let's get started. The first thing we need to do is listen for keyboard events. In React, we can do that using the `useEffect` hook. We can add an event listener for the `keydown` event and then remove it when the component unmounts. This approach is fine, but the issue is that we have to write code again and again for each different shortcut, and it's never good to repeat yourself while coding. So, we should think of an alternative approach.
+
+One thing we can do is create a hook that handles all the logic for keyboard shortcuts. This sounds good, doesn’t it?
+
+Oftentimes, we want to perform some actions in our applications when key presses are registered. The action part can be handled by functions inside our component, and the key presses can be converted to a string. This might be a lot to take in, so let's take it step by step.
+
+We are creating a hook named `useShortcut` which will accept a `Record<string, () => void>` that is a string of key presses and a function to be executed which has void return type. The string of key presses will be converted to an array of strings, and we will check if the key pressed is in the array. If it is, we will execute the function passed to the hook.
+The hook will look something like this:
+
+```typescript
+import { useEffect, useRef } from "react";
+
+type ShortcutMap = Record<string, () => void>;
+
+function normalizeShortcut(e: KeyboardEvent) {
+  const keys = [];
+  if (e.ctrlKey) keys.push("ctrl");
+  if (e.shiftKey) keys.push("shift");
+  if (e.altKey) keys.push("alt");
+  if (e.metaKey) keys.push("meta");
+  keys.push(e.key.toLowerCase());
+  return keys.join("+");
+}
+
+export function useShortcut(shortcuts: ShortcutMap) {
+  const shortcutsRef = useRef(shortcuts);
+  shortcutsRef.current = shortcuts;
+
+  useEffect(() => {
+    function handler(e: KeyboardEvent) {
+      const shortcut = normalizeShortcut(e);
+      const fn = shortcutsRef.current[shortcut];
+      if (fn) {
+        e.preventDefault();
+        fn();
+      }
+    }
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
+}
+```
+
+### Explanation of the code:
+
+1. **Type Definition**: We define a type `ShortcutMap` which is a record of strings to functions that return void. This will be used to define the shortcuts and their corresponding actions.
+
+2. **normalizeShortcut Function**: This function takes a `KeyboardEvent` and normalizes the key presses into a string format. It checks for modifier keys (ctrl, shift, alt, meta) and appends the main key pressed to the string.
+
+3. **useShortcut Hook**: This is the main hook that takes a `shortcuts` object as an argument. It uses `useRef` to keep a reference to the shortcuts object, which allows us to access the latest version of the shortcuts inside the event handler.
+
+4. **useEffect Hook**: Inside the `useEffect`, we add an event listener for the `keydown` event. When a key is pressed, we call the `handler` function which normalizes the shortcut and checks if it exists in the `shortcutsRef`. If it does, we prevent the default action and call the corresponding function and once it is done, we remove the event listener to avoid memory leaks.
+
+### Why this approach?
+
+- **Reusability**: The `useShortcut` hook can be reused across different components, making it easy to implement keyboard shortcuts in any part of your application.
+- **Simplicity**: The code is simple and easy to understand. It doesn't require any third-party libraries, which keeps the bundle size smaller.
+- **Flexibility**: You can easily add or remove shortcuts by updating the `shortcuts` object passed to the hook.
+- **Performance**: The use of `useRef` ensures that we always have the latest version of the shortcuts without causing unnecessary re-renders. 
+
+### Example Usage
+
+
+````typescript
+import { Check, Download, X } from "lucide-react";
+import { useState } from "react";
+import { Button } from "~/components/ui/button";
+import { cn } from "~/lib/utils";
+import { useShortcut } from "~/hooks/useShortcut";
+
+export function DownloadButton() {
+  const [error, setError] = useState<boolean>(false);
+  const [downloaded, setDownloaded] = useState<boolean>(false);
+
+  const handleDownload = () => {
+    try {
+      const content = localStorage.getItem("sentio-content");
+      if (!content) {
+        setError(true);
+        return;
+      }
+      const blob = new Blob([content], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "sentio-content.txt";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      setDownloaded(true);
+      setError(false);
+    } catch (e) {
+      console.error(e);
+      setError(true);
+    } finally {
+      setTimeout(() => {
+        setError(false);
+        setDownloaded(false);
+      }, 3000);
+    }
+  };
+
+    useShortcut({
+    "alt+d": handleDownload,
+  });
+
+  return (
+    <Button
+      variant="ghost"
+      size="default"
+      className={cn(
+        "h-10 w-10 p-2",
+        error && "text-red-500 hover:text-red-600",
+        downloaded && "text-green-500 hover:text-green-600"
+      )}
+      onClick={handleDownload}
+      disabled={downloaded}
+    >
+      {error ? (
+        <X className="h-5 w-5" />
+      ) : downloaded ? (
+        <Check className="h-5 w-5" />
+      ) : (
+        <Download className="h-5 w-5" />
+      )}
+    </Button>
+  );
+}
+````
+
+### Explanation of the example:
+
+The snippet above shows how I have used useShortcut hook in my project. The `DownloadButton` component has a button that allows the user to download the content of the editor. The `handleDownload` function is called when the button is clicked or when the keyboard shortcut (Alt + D) is pressed.
+
+This way I didn't have to write the same code again and again for each shortcut. I just need to add the shortcut to the `shortcuts` object passed to the `useShortcut` hook and since I have already written the logic for the shortcut, it will work as expected.
+
+### Conclusion
+
+So this was one of the way to implement keyboard shortcuts in React applications without having to use any third-party libraries. I am quite sure that there is room for improvement and specially to make this hook more flexible and server safe so that it can be used in server components as well. I am working on it and I will soon publish it with my hooks collection. But that was all for today. I hope you found this blog post helpful and informative. If you have any questions or suggestions, feel free to reach out to me on [Twitter](https://twitter.com/ni3rav).
+
+Bye😺
