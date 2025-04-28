@@ -1,0 +1,221 @@
+---
+title: "A Guide to React Server Components"
+date: "2024-04-28"
+tags: ["react", "frontend", "typescript", "server-components", "web-development", "nextjs"]
+image: ""
+author: "Nirav"
+description: "A simple guide to get you started with React Server Components, their benefits, and how to implement them in your Next.js application."
+---
+
+Hey Everyone! 
+
+Today, we are going to talk about **React Server Components (RSC)**. This blog aims to server you as a simple guide to get you started with React Server components and kind of give you a mental model of how they work and how can you utilze them in your project to make it more efficient and faster. So let's not waste any time and get started.
+
+## What are React Server Components?
+
+Let's say you are creating a React app which fetches data from your backend or any external API and then displays it on the frontend, let's keep thing fun I have created a simple React app which fetches some dummy data of posts from the [DummyJSON](https://dummyjson.com/) API and displays it on the frontend. 
+
+Going by the normal React component structure, we would define fetching logic inside of our page component which will fetch posts forom the API and store them into a state varaiable, we for an improved user experience we would also use a loading state to show a loading spinner while the data is being fetched and the fetching logic would look something like this:
+
+```jsx
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const res = await fetch("https://dummyjson.com/posts");
+        const data = await res.json();
+        setPosts(data.posts);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+```
+
+And now we can utilise this posts state variable to render posts on the fronted like this (ignore classNames here, they are not our concern for this blog):
+
+```jsx
+  return (
+    <div className="min-h-screen bg-gray-100 p-4">
+      <div className="max-w-6xl mx-auto grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {posts.map((post) => (
+          <Post key={post.id} post={post} />
+        ))}
+      </div>
+    </div>
+  );
+``` 
+
+Here I have created a simple Post component just to avoid any clutter in the blog as it is not the main focus. But you can imagine it to be a simple component which takes a post object as a prop and renders it on the frontend and the final code. The code and output of our page component would look something like this:
+
+```jsx
+import React, { useEffect, useState } from "react";
+
+function App() {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const res = await fetch("https://dummyjson.com/posts");
+        const data = await res.json();
+        setPosts(data.posts);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <p className="text-gray-600 text-xl">Loading posts...</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-100 p-4">
+      <div className="max-w-6xl mx-auto grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {posts.map((post) => (
+          <Post key={post.id} post={post} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default App;
+```
+
+Output:
+![Output of the code above](/blogs/rscs/1.png)
+
+and the loading state would look something like this:
+![Loading state](/blogs/rscs/2.png)
+
+For a simple app like this, this approach works fine but as the app grows and there might be multiple components on a same page which are fetching data from different APIs and rendering them on the frontend, this approach can lead to a lot of problems like:
+
+1. **Client-Side Rendering**: The data fetching is done on the client side, which means that the initial HTML sent to the browser does not contain the data so we have to ship Javascript to the client to fetch the data and render it on the client side. This can lead to a slower initial load time and a poor user experience, especially for users with slow internet connections.
+
+2. **Increased Bundle Size and Perfromance Issue**: Since we are fetching data on the client side, we need to include the fetching logic and any dependencies in our JavaScript bundle. This can increase the size of the bundle and slow down the loading time of the application and might lead to performance issues, especially on weaker devices.
+
+3. **SEO Limitations**: Search engines may not be able to crawl and index the content that is rendered on the client side, which can affect the SEO of the application.
+
+4. **Complexity**: As the application grows, managing the data fetching logic and state can become complex and difficult to maintain. You might end up with a lot of useEffect hooks and loading states, which can make the code harder to read and understand.
+
+
+So to solve these issues, React introduced **React Server Components (RSC)** as an experimental feature in react 18 but now they are marked as stable in React 19. React server components were popularized by the Next.js (this is where you most likely would have heard about RSC). Starting from Next.js 13.4, RSC became a stable feature in Next.js that allows you to utilise RSC in your Next.js projects. 
+
+Alright I have already talked a lot about RSC but didn't give you a clear definition of what RSC is, so let's do that now.
+
+> React Server Components (RSC) are a new type of React component that allows you to render components on the server and send the HTML to the client. This means that you can fetch data on the server and render it on the server, which can lead to a faster initial load time and a better user experience. RSC are designed to be used in conjunction with client components, which are the traditional React components that run on the client side (you just show a client code component above).
+
+**Let me be clear, RSC is not a Next.js specific feature, it is a React feature that can be used in any React project** but Next.js has made it super easy to use RSC.
+
+To better understand RSC you can imagine how a client component works and how a server component works, with follwoing diagrams:
+
+### Client Component
+![Client Component Diagram](/blogs/rscs/3.png)
+
+### Server Component
+![Client Component Diagram](/blogs/rscs/4.png)
+
+The diagram above gives you a rough overview on how you can think of a server component and a client component. The server component is rendered on the server and the HTML is sent to the client, while the client component is rendered on the client and the data fetching logic is executed on the client that gives you follwoing benefits:
+
+1. **Faster Initial Load Time**: Since the HTML is rendered on the server, the initial load time is faster and the user can see the content faster.
+
+2. **Reduced Bundle Size**: Since the data fetching logic is done on the server itself, there is no need to ship any Javascript on client side.
+
+3. **Better SEO**: Since the HTML is rendered on the server, search engines can crawl and index the content, which can improve the SEO of the application.
+
+4. **Simpler Code**: As the data fetching logic is done on the server, you can avoid using useEffect hooks and loading states, which can make the code simpler and easier to read.
+
+5. **Streaming**: React Server Components (RSC) support streaming, meaning the server can send parts of the HTML to the client as soon as they are ready, without waiting for the whole page to render. This leads to faster initial load times and a better user experience.
+
+## How to Use React Server Components?
+
+Framerworks like Next.js and Remix have made it super easy to use RSC in your projects. In this blog, we will be using Next.js to demonstrate how to use RSC in your projects. 
+
+By default Next.js enforces the use of RSC in your project, so you don't have to do anything special to enable it. So the same code above can be written in a server component like this (we are using Next.js app router which uses file based routing, so for this example we will create a file called `page.jsx` in the `app` directory and the output will be displayed on the `/` route):
+
+```jsx
+// Post component would remain the same as above
+
+async function App() {
+  let posts = [];
+
+  try {
+    const res = await fetch("https://dummyjson.com/posts");
+    if (!res.ok) {
+      throw new Error(`Failed to fetch posts: ${res.status}`);
+    }
+    const data = await res.json();
+    posts = data.posts;
+
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    return (
+        // just in case of error, we can return this error UI
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <p className="text-gray-600 text-xl">
+          Failed to load posts. Please try again later.
+        </p>
+      </div>
+    );
+  }
+
+    // Component rendering would be the same
+
+}
+
+export default App;
+```
+
+The above code is a server component and it will be rendered on the server and the HTML will be sent to the client. The loading state is not needed here as the data fetching logic is done on the server and the HTML is sent to the client.Imagine this code in a large application where you have multiple components fetching data from different APIs, this approach will make your code much cleaner and easier to read.
+
+
+## Why don't we use RSC everywhere?
+
+While RSC has a lot of benefits, it is not some magic rather a solution to some specific problems which we have discussed above. There are some limitations to RSC which you should be aware of before using it in your projects:
+
+1. **No State Management**: RSC does not support state management, so you cannot use hooks like `useState` or `useEffect` in RSC. This means that you cannot manage the state of your components in RSC, which can be a limitation in some cases. 
+
+**Since Next.js enforces RSC everywhere we have to add `use client` directive at the top of client components which tells Next.js to treat this component as a client component and it will be rendered on the client side, allowing you to use hooks in your component.**
+
+2. **No Side Effects**: RSC does not support hooks, This means that you cannot perform any side effects in RSC, which can be a limitation in some cases.
+
+3. **No Client-Side Interactivity**: RSC is not designed for client-side interactivity, so you cannot use RSC for components that require client-side interactivity. For example, you cannot use RSC for components that require user input or client-side events (as simple as a hover event).
+
+5. **Server Cost**: Since RSC is rendered on the server, it can increase the server cost, especially for large applications with a lot of server components. This can be a limitation in some cases.
+
+4. **Limited Ecosystem**: RSC is a relatively new feature, so the ecosystem around it is still growing (rapidly though). This means that there may be some limitations in terms of libraries and tools that support RSC.
+
+5. **Not Suitable for All Use Cases**: RSC is not suitable for all use cases, so you should carefully consider whether RSC is the right solution for your project. For example, if you have a simple application with a few components, RSC may not be necessary.
+
+To simplify when to use RSC and when to use client components, you can think of the following table which I'd like to quote from [Next.js documentation](https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns#:~:text=Here%27s%20a%20quick%20summary%20of%20the%20different%20use%20cases%20for%20Server%20and%20Client%20Components%3A):
+
+![Table](/blogs/rscs/5.png)
+
+
+And there are some myths about RSC which I would like to clear up:
+
+2.  **RSCs can't have regular interactive parts inside**: Some people think that Server Components can't have the normal, clicky, and changing parts (Client Components) inside them. But they can! The Server Component just does its job first on the computer in the cloud, and then it tells the browser where to put the interactive parts.
+
+3.  **RSCs will take over everything**: Another idea is that Server Components will replace all the regular interactive parts we use now. But that's probably not going to happen. They are good for different things and work best together.
+
+5.  **RSCs can't touch browser stuff at all**: It's true that Server Components run on a computer far away (the server) and can't directly use things like your screen or your browser's memory. But, they *can* send information to the interactive parts that *do* run in your browser, so they can still affect what you see and do.
+
+## Conclusion
+
+Alright that was all for this little blog, I wrote this blogs with all the details I wished I had when I was learning RSC. I hope this blog helped you understand what RSC is and how to use it in your projects.
+
+Bye! 🐱
