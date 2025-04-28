@@ -1,6 +1,6 @@
 ---
 title: "A Guide to Compound Components in React"
-date: "2024-04-18"
+date: "2024-04-22"
 tags: ["react", "frontend", "typescript", "design-patterns"]
 image: "/blogs/compound-components/cover.png"
 author: "Nirav"
@@ -44,7 +44,7 @@ which looks like this (ignore the styling part as it is not important for this b
 
 ![a card component](/blogs/compound-components/1.png)
 
-let's say my application has multiple pages where I am using different varients of this card componet, let's say on profile page I am hiding the like and share button, on the home page I am showing the like button and let's say on some other pages I am extending the card component to show some other information. So you might think we should pass some booleand props such as `showLikeButton` and `showShareButton` to the Card component to control the visibility of these buttons and similar for other informations, so the code of the card component will look like this:
+let's say my application has multiple pages where I am using different variants of this card component, let's say on profile page I am hiding the like and share button, on the home page I am showing the like button and let's say on some other pages I am extending the card component to show some other information. So you might think we should pass some booleand props such as `showLikeButton` and `showShareButton` to the Card component to control the visibility of these buttons and similar for other informations, so the code of the card component will look like this:
 
 ```tsx
 type CardProps = {
