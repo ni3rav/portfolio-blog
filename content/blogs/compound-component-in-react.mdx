@@ -9,9 +9,9 @@ description: "A simple guide on what are Compound Components in React and how to
 
 Hey everyone!
 
-With this blog, I am staring a new series of blogs where we will be discussing design patterns in React. I will be covering the most common design patterens used in React applications and will guide you on how to implement them in your applications as well (As I continue to learn and implment them myself).
+With this blog, I am starting a new series of blogs where we will be discussing design patterns in React. I will be covering the most common design patterns used in React applications and will guide you on how to implement them in your applications as well (as I continue to learn and implement them myself).
 
-So in this blog we will be discussing **Compound Components**. This is a very common design pattern used in React applications that allows you to create composable commponents that can work together elegentaly. This pattern is very useful when you want to create a set of components that are related to each other and need to share some state or behavior between them let's start with an example.
+So in this blog we will be discussing **Compound Components**. This is a very common design pattern used in React applications that allows you to create composable components that can work together elegantly. This pattern is very useful when you want to create a set of components that are related to each other and need to share some state or behavior between them. Let's start with an example.
 
 ### Example
 
@@ -44,7 +44,7 @@ which looks like this (ignore the styling part as it is not important for this b
 
 ![a card component](/blogs/compound-components/1.png)
 
-let's say my application has multiple pages where I am using different variants of this card component, let's say on profile page I am hiding the like and share button, on the home page I am showing the like button and let's say on some other pages I am extending the card component to show some other information. So you might think we should pass some booleand props such as `showLikeButton` and `showShareButton` to the Card component to control the visibility of these buttons and similar for other informations, so the code of the card component will look like this:
+Let's say my application has multiple pages where I am using different variants of this card component. For example, on the profile page I am hiding the like and share buttons, on the home page I am showing the like button, and on some other pages I am extending the card component to show some other information. So you might think we should pass some boolean props such as `showLikeButton` and `showShareButton` to the Card component to control the visibility of these buttons and similar for other information. The code of the card component will look like this:
 
 ```tsx
 type CardProps = {
@@ -74,7 +74,7 @@ It might seem like the usual way to do things, but if we want more control over 
 
 ### What are Compound Components?
 
-As I mentioned earlier, Compound Components are a design pattern in React that allows you to create a set of components that work together. The main idea is to create a parent component that manages the state and behavior of its child components. This way, you can create a more flexible and reusable set of components. It can be visualised something like this:
+As I mentioned earlier, Compound Components are a design pattern in React that allows you to create a set of components that work together. The main idea is to create a parent component that manages the state and behavior of its child components. This way, you can create a more flexible and reusable set of components. It can be visualized something like this:
 
 ![compound component](/blogs/compound-components/2.png)
 
@@ -104,7 +104,7 @@ const CardContext = createContext<CardContextType | null>(null);
 
 const useCardContext = () => {
   const context = useContext(CardContext);
-  // this will ensure that context is not null or the subcomponents are not used used outside the provider
+  // this will ensure that context is not null or the subcomponents are not used outside the provider
   if (!context) {
     throw new Error("Card.* components must be used inside <Card.Provider />");
   }
@@ -355,7 +355,7 @@ function App() {
 export default App;
 ```
 
-and here's a preview of how it looks (ignore the styling part and yes I used ChatGPT to create theese variations and styling):
+and here's a preview of how it looks (ignore the styling part and yes I used ChatGPT to create these variations and styling):
 ![compound component variations](/blogs/compound-components/3.png)
 
 

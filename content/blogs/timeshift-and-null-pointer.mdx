@@ -9,42 +9,42 @@ description: "A hilarious tale of how a NULL pointer tried to ruin my Arch Linux
 
 Hello Everynyan!
 
-In this blog, I will discuss an issue I encountered with Timeshift on my distro (i use arch btw). For those unfamiliar with the concept of a NULL pointer, it’s worth noting that it was the same issue that led to the recent BSOD epidemic with CrowdStrike, A recent example is the vulnerability found in TOR (which is based on Firefox), involving a use-after-free exploit in animation timelines. It turns out that the NULL pointer was identified as the culprit behind this issue.
+In this blog, I will discuss an issue I encountered with Timeshift on my distro (I use Arch, by the way). For those unfamiliar with the concept of a NULL pointer, it's worth noting that it was the same issue that led to the recent BSOD epidemic with CrowdStrike. A recent example is the vulnerability found in TOR (which is based on Firefox), involving a use-after-free exploit in animation timelines. It turns out that the NULL pointer was identified as the culprit behind this issue.
 
 Before diving in, let me provide a brief introduction to Arch Linux and other distributions, the differences between rolling release and LTS release cycles, Timeshift, and the Btrfs filesystem.
 
 CHAPTER 1: Exposition
 ---------------------
 
-Let’s begin with Arch Linux. Arch is a minimal Linux distribution (distro) that you may have come across in memes like “I use Arch, by the way.” The key point is that Arch is so minimal that it doesn’t come with a Graphical User Interface (GUI) or Desktop Environment (DE) out of the box; all you get is a shell, and you need to configure everything yourself—essentially making it a DIY distro. In addition to its high configurability, Arch follows a rolling release cycle, which means you can access the latest software and packages as soon as they become available, keeping you on the cutting edge.
+Let's begin with Arch Linux. Arch is a minimal Linux distribution (distro) that you may have come across in memes like "I use Arch, by the way." The key point is that Arch is so minimal that it doesn't come with a Graphical User Interface (GUI) or Desktop Environment (DE) out of the box; all you get is a shell, and you need to configure everything yourself—essentially making it a DIY distro. In addition to its high configurability, Arch follows a rolling release cycle, which means you can access the latest software and packages as soon as they become available, keeping you on the cutting edge.
 
-You may ask what is Rolling Release ?
+You may ask what is Rolling Release?
 
-Rolling Release: This type of update means your software is always up to date. You get the latest features and improvements as soon as they come out. Arch Linux is a good example of this along with openSUSE (Tumbleweed); it’s like always having the newest version of your favorite app without waiting for a big update.
+Rolling Release: This type of update means your software is always up to date. You get the latest features and improvements as soon as they come out. Arch Linux is a good example of this along with openSUSE (Tumbleweed); it's like always having the newest version of your favorite app without waiting for a big update.
 
-Long-Term Support (LTS): LTS versions are all about stability. They don’t change much over time, which means they’re reliable and safe to use for a long time. You get updates for several years, but you won’t get the latest features until a new version is released. Fedora, Debian and Mint are some of the popular LTS option, perfect for people who want a dependable system.
+Long-Term Support (LTS): LTS versions are all about stability. They don't change much over time, which means they're reliable and safe to use for a long time. You get updates for several years, but you won't get the latest features until a new version is released. Fedora, Debian, and Mint are some of the popular LTS options, perfect for people who want a dependable system.
 
-While both LTS and Rolling Relase have their shares of Pros and Cons, let’s just not get into it and save it for the later :)
+While both LTS and Rolling Release have their share of pros and cons, let's just not get into it and save it for later :)
 
 Using a rolling release distro like Arch can provide a bleeding-edge experience, but it has a significant downside: the update system may break due to issues with version dependencies or conflicts between packages. To protect yourself from these potential problems, Timeshift can be a valuable tool.
 
-Timeshift is a handy tool for Linux that helps you back up and restore your system. It works by taking snapshots, which are like pictures of your system at a certain point in time. You can set it to automatically take these snapshots regularly or do it manually whenever you want. The cool part is that after the first snapshot, it only saves the changes you make, so it doesn’t take up too much space. If something goes wrong after an update or change, you can easily go back to a previous snapshot and restore your system to how it was before. Timeshift has a simple interface, making it easy for anyone to use, even if you’re not very tech-savvy.
+Timeshift is a handy tool for Linux that helps you back up and restore your system. It works by taking snapshots, which are like pictures of your system at a certain point in time. You can set it to automatically take these snapshots regularly or do it manually whenever you want. The cool part is that after the first snapshot, it only saves the changes you make, so it doesn't take up too much space. If something goes wrong after an update or change, you can easily go back to a previous snapshot and restore your system to how it was before. Timeshift has a simple interface, making it easy for anyone to use, even if you're not very tech-savvy.
 
 Timeshift can use different methods for creating backups, and two common ones are **rsync** and **Btrfs**.
 
-1.  **Rsync:** This is a file-copying tool that works by synchronizing files and directories between locations. When Timeshift uses rsync, it creates backups by copying files from your system to a backup location. It’s flexible and can work with any filesystem, but it doesn’t have built-in snapshot capabilities, meaning it can’t capture the exact state of the system at a specific moment.
+1.  **Rsync:** This is a file-copying tool that works by synchronizing files and directories between locations. When Timeshift uses rsync, it creates backups by copying files from your system to a backup location. It's flexible and can work with any filesystem, but it doesn't have built-in snapshot capabilities, meaning it can't capture the exact state of the system at a specific moment.
     
 2.  **Btrfs:** This is a modern filesystem that has built-in snapshot features. When Timeshift uses Btrfs, it can create snapshots almost instantly without needing to copy files. This means it captures the entire state of the system at that moment, making it very efficient and quick. Btrfs snapshots are also space-efficient because they only store changes after the first snapshot.
     
 
 Quick Note:  
-Btrfs (pronounced “butter FS”) is a modern filesystem for Linux that’s a bit smarter than older ones like ext4. One of its cool features is “copy-on-write,” which means that when you make changes to a file, Btrfs doesn’t just overwrite the old version. Instead, it keeps the original file intact and writes the new version somewhere else. This way, if something goes wrong, you can easily go back to the old version. Btrfs also lets you create snapshots, which are like time-stamped backups of your system, and it has built-in data protection features. Overall, it’s more flexible and efficient than ext4, making it a great choice for users who want to manage their data better!
+Btrfs (pronounced "butter FS") is a modern filesystem for Linux that's a bit smarter than older ones like ext4. One of its cool features is "copy-on-write," which means that when you make changes to a file, Btrfs doesn't just overwrite the old version. Instead, it keeps the original file intact and writes the new version somewhere else. This way, if something goes wrong, you can easily go back to the old version. Btrfs also lets you create snapshots, which are like time-stamped backups of your system, and it has built-in data protection features. Overall, it's more flexible and efficient than ext4, making it a great choice for users who want to manage their data better!
 
 In summary, rsync is great for copying files but lacks snapshot features, while Btrfs offers efficient snapshots that capture the entire system state quickly and easily.
 
-Since I use Arch Linux (btw), it was absolutely crucial for me to roll with the Btrfs filesystem and Timeshift. I mean, this is the OS I tinker with daily, and let’s be honest—I’ve messed around with so many configurations that I needed a safety net! Timeshift is my trusty sidekick, ready to save my progress and back up my system whenever I get a little too adventurous. I’ve got it all set up to capture snapshots regularly, especially when I’m diving into updates or playing with Pacman and Yay. For those who don’t know, Pacman is the package manager for Arch, and Yay is like Pacman’s cool cousin who makes installing stuff from the Arch User Repository (AUR) a breeze. So, with Timeshift, I can experiment to my heart’s content, knowing I can always hit the rewind button if things go sideways!
+Since I use Arch Linux (btw), it was absolutely crucial for me to use the Btrfs filesystem and Timeshift. I mean, this is the OS I tinker with daily, and let's be honest—I've messed around with so many configurations that I needed a safety net! Timeshift is my trusty sidekick, ready to save my progress and back up my system whenever I get a little too adventurous. I've got it all set up to capture snapshots regularly, especially when I'm diving into updates or playing with Pacman and Yay. For those who don't know, Pacman is the package manager for Arch, and Yay is like Pacman's cool cousin who makes installing stuff from the Arch User Repository (AUR) a breeze. So, with Timeshift, I can experiment to my heart's content, knowing I can always hit the rewind button if things go sideways!
 
-ALRIGHT THE CHAPTER 1 ENDS HERE LETS GET INTO THE REAL ISSUE
+ALRIGHT, CHAPTER 1 ENDS HERE. LET'S GET INTO THE REAL ISSUE
 
 CHAPTER 2: Rising Issue
 -----------------------
