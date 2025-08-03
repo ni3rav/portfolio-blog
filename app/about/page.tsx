@@ -1,6 +1,7 @@
 import Navbar from "@/components/navbar";
 import Image from "next/image";
 import Link from "next/link";
+import { skills, experiences, achievements } from "@/content/about-me";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -20,35 +21,10 @@ export const metadata: Metadata = {
 };
 
 export default function AboutMe() {
-  const skills = [
-    {
-      category: "Languages",
-      items: ["HTML", "CSS", "JavaScript", "TypeScript", "Python", "Java", "C"],
-    },
-    {
-      category: "Frontend",
-      items: [
-        "React",
-        "Next.js",
-        "Tailwind CSS",
-        "Bootstrap",
-        "Astro",
-        "ShadCN",
-      ],
-    },
-    {
-      category: "Backend",
-      items: ["mongoDB", "ExpressJS", "NodeJS", "Flask", "FastAPI"],
-    },
-    {
-      category: "Tools",
-      items: ["VS Code", "Z-Shell", "Powershell", "Postman", "Git"],
-    },
-  ];
-
   return (
     <main>
       <Navbar />
+
       {/* About Header */}
       <section className="py-16">
         <h1 className="text-4xl md:text-5xl font-bold mb-4">
@@ -81,7 +57,6 @@ export default function AboutMe() {
               <i>i like cats</i>
             </p>
           </div>
-
           <div className="mt-8">
             <Link
               href="/resume.pdf"
@@ -91,7 +66,6 @@ export default function AboutMe() {
             </Link>
           </div>
         </div>
-
         <div>
           <div className="relative max-w-[300px] mx-auto md:mx-0">
             <div className="border-2 border-purple-500 absolute top-[-20px] right-[-20px] w-full h-full"></div>
@@ -114,7 +88,6 @@ export default function AboutMe() {
           </h2>
           <div className="flex-grow mx-4 h-px bg-gray-700"></div>
         </div>
-
         <div className="grid grid-cols-1 gap-6">
           {skills.map((skillGroup) => (
             <div
@@ -139,7 +112,70 @@ export default function AboutMe() {
         </div>
       </section>
 
+      {/* Achievements Section */}
+      <section className="mb-16">
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold">
+            <span className="text-purple-500">#</span>achievements
+          </h2>
+          <div className="flex-grow mx-4 h-px bg-gray-700"></div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {achievements.map((achievement, index) => (
+            <div
+              key={index}
+              className="border border-gray-700 p-6 hover:border-purple-500/50 transition-colors"
+            >
+              <h3 className="text-xl font-bold mb-2">{achievement.title}</h3>
+              <p className="text-purple-500 mb-2">
+                {achievement.organization} <br />
+                <span className="text-sm font-light text-gray-300">
+                  {achievement.year}
+                </span>
+              </p>
+              <p className="text-gray-300">{achievement.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Experience Section */}
+      <section className="mb-16">
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold">
+            <span className="text-purple-500">#</span>experience
+          </h2>
+          <div className="flex-grow mx-4 h-px bg-gray-700"></div>
+        </div>
+        <div className="space-y-8">
+          {experiences.map((experience, index) => (
+            <div
+              key={index}
+              className="border-l-2 border-purple-500 pl-6 relative"
+            >
+              <div className="absolute w-3 h-3 bg-purple-500 rounded-full left-[-7px] top-1"></div>
+              <h3 className="text-xl font-bold">{experience.title}</h3>
+              <p className="text-purple-500 mb-2">
+                {experience.company} | {experience.period}
+              </p>
+              <p className="text-gray-300 mb-3">{experience.description}</p>
+              <div className="flex flex-wrap gap-2">
+                {experience.technologies &&
+                  experience.technologies.map((tech) => (
+                    <span
+                      key={tech}
+                      className="text-sm border border-gray-700 px-2 py-1 rounded"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Education Section */}
       <section className="mb-16">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-2xl md:text-3xl font-bold">
@@ -147,7 +183,6 @@ export default function AboutMe() {
           </h2>
           <div className="flex-grow mx-4 h-px bg-gray-700"></div>
         </div>
-
         <div className="space-y-8">
           <div className="border-l-2 border-purple-500 pl-6 relative">
             <div className="absolute w-3 h-3 bg-purple-500 rounded-full left-[-7px] top-1"></div>
@@ -156,22 +191,14 @@ export default function AboutMe() {
             </h3>
             <p className="text-purple-500">Adani University | 2023 - 2027</p>
             <p className="text-gray-300">
+              <b>CGPA: </b> 7.73 (As of Semester 4)
+            </p>
+            <p className="text-gray-300">
               <b>Coursework: </b> Data Structures, Analysis and Design of
               Algorithms, Database Management Systems, Computer Networks,
               Operating Systems
             </p>
           </div>
-
-          {/* <div className="border-l-2 border-gray-700 pl-6 relative">
-            <div className="absolute w-3 h-3 bg-gray-700 rounded-full left-[-7px] top-1"></div>
-            <h3 className="text-xl font-bold">Web Designer</h3>
-            <p className="text-purple-500">Creative Agency | 2020 - 2022</p>
-            <p className="text-gray-300 mt-2">
-              Designed and developed responsive websites for clients across
-              various industries, focusing on user experience and brand
-              consistency.
-            </p>
-          </div> */}
         </div>
       </section>
     </main>

@@ -2,7 +2,7 @@ import type React from "react";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Space_Mono } from "next/font/google";
-import SocialSidebar from "@/components/social-sidebar";
+import Footer from "@/components/footer";
 
 const spaceMono = Space_Mono({
   weight: ["400", "700"],
@@ -25,8 +25,8 @@ export default function RootLayout({
       <body
         className={`${spaceMono.variable} font-mono bg-[#1e2126] text-white min-h-screen`}
       >
-        <SocialSidebar />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">{children}</div>
+        <Footer />
       </body>
     </html>
   );

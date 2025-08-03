@@ -2,6 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
 import ProjectCard from "@/components/project-card";
+import AchievementCard from "@/components/achievement-card";
+import ExperienceCard from "@/components/experience-card";
+import BlogCard from "@/components/blog-card";
+import { achievements, experiences } from "@/content/about-me";
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
@@ -39,6 +43,8 @@ function getBlogPreviews() {
 export default function Home() {
   const projectsPrev = getProjectPreviews();
   const blogsPrev = getBlogPreviews();
+  const achievementsPrev = achievements.slice(0, 3); // Show only first 3
+  const experiencePrev = experiences.slice(0, 3); // Show only first 3
 
   return (
     <main>
@@ -71,7 +77,6 @@ export default function Home() {
             About Me =&gt;
           </Link>
         </div>
-
         <div className="w-full md:w-1/2 relative">
           <div className="relative max-w-[300px] mx-auto md:mx-0 md:ml-auto">
             <div className="border-2 border-purple-500 absolute top-[-20px] right-[-20px] w-full h-full"></div>
@@ -91,6 +96,27 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Achievements Preview Section */}
+      <section className="py-16">
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold">
+            <span className="text-purple-500">#</span>achievements
+          </h2>
+          <div className="flex-grow mx-4 h-px bg-gray-700"></div>
+          <Link
+            href="/achievements"
+            className="text-gray-400 hover:text-white whitespace-nowrap"
+          >
+            View all --&gt;
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {achievementsPrev.map((achievement, index) => (
+            <AchievementCard key={index} achievement={achievement} />
+          ))}
+        </div>
+      </section>
+
       {/* Projects Preview Section */}
       <section className="py-16">
         <div className="flex justify-between items-center mb-8">
@@ -105,10 +131,30 @@ export default function Home() {
             View all --&gt;
           </Link>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projectsPrev.map((project: any) => (
             <ProjectCard key={project.id} project={project} />
+          ))}
+        </div>
+      </section>
+
+      {/* Experience Preview Section */}
+      <section className="py-16">
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold">
+            <span className="text-purple-500">#</span>experience
+          </h2>
+          <div className="flex-grow mx-4 h-px bg-gray-700"></div>
+          <Link
+            href="/experience"
+            className="text-gray-400 hover:text-white whitespace-nowrap"
+          >
+            View all --&gt;
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {experiencePrev.map((experience, index) => (
+            <ExperienceCard key={index} experience={experience} />
           ))}
         </div>
       </section>
@@ -127,24 +173,9 @@ export default function Home() {
             View all --&gt;
           </Link>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {blogsPrev.map((blog: any) => (
-            <Link
-              key={blog.id}
-              href={`/blogs/${blog.id}`}
-              className="block group"
-            >
-              <div className="border border-gray-700 hover:border-purple-500 transition-colors h-full">
-                <div className="p-4">
-                  <p className="text-gray-400 mb-2">{blog.date}</p>
-                  <h3 className="text-xl font-semibold mb-2 group-hover:text-purple-500 transition-colors">
-                    {blog.title}
-                  </h3>
-                  <p className="text-gray-400">{blog.description}</p>
-                </div>
-              </div>
-            </Link>
+            <BlogCard key={blog.id} blog={blog} />
           ))}
         </div>
       </section>
