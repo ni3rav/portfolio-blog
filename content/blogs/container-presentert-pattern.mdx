@@ -1,0 +1,282 @@
+---
+title: "Container-Presenter design Pattern in React"
+date: "2025-08-03"
+tags: ["react", "frontend", "design-patterns"]
+image: "/blogs/container-presenter/cover.png"
+author: "Nirav"
+description: "A quick guide on the 'Container-Presenter' pattern and it's implementation in React"
+---
+
+Hey everyone!
+
+It's been a while since I added a new installement to my blog series of 'React Design Patterns' but it's better late than never, here I am with a quick blog on very famous 'Container-Presenter Pattern'. Chances are high that you might have already implemented this pattern unknowingly if you're writing React code for a while, anyways let's start with an example right off the bat!
+
+## The Intro
+
+Let us assume we have a component that fetches some data from some external source (might be database or an external API). For this blog I am using `https://api.thecatapi.com/v1/images/search` that responds with cat images, following fetches data from this API and render it on the UI 
+
+```tsx
+import { useEffect, useState } from "react";
+
+export default function CatGallery() {
+  const [cats, setCats] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("https://api.thecatapi.com/v1/images/search?limit=6")
+      .then((res) => res.json())
+      .then((data) => {
+        setCats(data.map((item: any) => item.url));
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <p className="text-center text-gray-500 mt-8">Loading cats...</p>;
+  }
+
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-4">
+      {cats.map((url, i) => (
+        <img key={i} src={url} alt="Cat" className="rounded-xl shadow-md" />
+      ))}
+    </div>
+  );
+}
+```
+
+And the output looks something like this
+
+![cars](/blogs/container-presenter/1.png)
+
+And now let's say we have one more component that fetches dog images from `dog.ceo/api` and renders it similarly
+
+```tsx
+import { useEffect, useState } from "react";
+
+export default function DogGallery() {
+  const [dogs, setDogs] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("https://dog.ceo/api/breeds/image/random/6")
+      .then(res => res.json())
+      .then(data => {
+        setDogs(data.message);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <p className="text-center text-gray-500 mt-8">Loading dogs...</p>;
+  }
+
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-4">
+      {dogs.map((url, i) => (
+        <img key={i} src={url} alt="Dog" className="rounded-xl shadow-md" />
+      ))}
+    </div>
+  );
+```
+
+And here's the output
+
+![dogs](/blogs/container-presenter/2.png)
+
+## The Issue
+
+For a simple example like this it's normal to couple the fetching-rendering logic in the same component and to an extent it's fine to repeat your logic for one or two times at max, but as the size of the app grows or your requirements change, you might run into some issues such as:
+
+1. Fetched data is controlled or affected by the some states
+2. You want to use the same UI for rendering some different data (let's say one component for Dog photos)
+3. You want to test the rendering or fetching logic in isolation
+4. You want to make changes is rendering or fetching logic
+5. Managing loading states and errors 
+
+In a nutshell. we are violating two big rules of clean code **Don't Repeat Yourself (DRY)** and **Separation of Concerns** as writing same logic repeatedly and if you take a step back and analyse you'd realise that rendering logic does not need to be coupled with fetching i.e. both concerns are handled by the same component, and to solve this behold __Container-Presenter Pattern__. 
+
+It primarily helps us separate the concerns and if implemented correctly we can save ourself from writing same logic multiple times. You can understand this pattern by following diagram
+
+![diagram](/blogs/container-presenter/3.png)
+
+## The solution
+
+Now our goal is,
+
+1. Separate the fetching logic into a separate component named `CatContainer` and `DogContainer` 
+2. Separate the rendering logic into a seprated component named `CatGalleryPresenter` and `DogGalleryPresenter` 
+
+Doing it so would de-couple the fetching and rendering logic and would yield following benifits:
+
+1. Reusability - Presenter can be reused with different containers or mock data
+2. Better Testability 
+3. Clear Separation
+4. Easier compositions as you can componse presenters together without worrying about logical clashes
+5. Cleaner codebase as each file does one thing
+6. In frameworks like NextJS you can l evarage server components with this pattern to optimise your apps
+
+Therefore the updated `CatContainer` and `CatGalleryPresenter` are as follows:
+
+#### CatContainer.tsx
+
+```tsx
+export function CatContainer() {
+  const [cats, setCats] = useState<string[]>([]);
+  useEffect(() => {
+    fetch("https://api.thecatapi.com/v1/images/search?limit=6")
+      .then(res => res.json())
+      .then(data => setCats(data.map((item: any) => item.url)));
+  }, []);
+
+  return <CatGalleryPresenter cats={cats} />;
+}
+```
+
+#### CatGalleryPresenter.tsx
+
+```tsx
+export function CatGalleryPresenter({ cats }: { cats: string[] }) {
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-4">
+      {cats.map((url, i) => (
+        <img key={i} src={url} alt="Cat" className="rounded-xl shadow-md" />
+      ))}
+    </div>
+  );
+}
+```
+
+We can do something similar for dog images as well, but if we set types properly and tweak the code a little we can actually make a generic container and presenter as follows:
+(For simplicity I am using `any` type casting but it's highly recommended to create proper types)
+
+#### GenericGalleryContainer.tsx
+
+```tsx
+import React, { useEffect, useState } from "react";
+import { GenericGalleryPresenter } from "./GenericGalleryPresenter";
+
+type Props = {
+  fetchImages: () => Promise<string[]>;
+  loadingComponent?: React.ReactNode;
+};
+
+export function GenericGalleryContainer({ fetchImages, loadingComponent }: Props) {
+  const [images, setImages] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchImages().then((imgs) => {
+      setImages(imgs);
+      setLoading(false);
+    });
+  }, [fetchImages]);
+
+  return (
+    <GenericGalleryPresenter
+      images={images}
+      loading={loading}
+      loadingComponent={loadingComponent}
+    />
+  );
+}
+```
+
+#### GenericGalleryPresenter.tsx
+
+```tsx
+import React from "react";
+
+type Props = {
+  images: string[];
+  loading: boolean;
+  loadingComponent?: React.ReactNode;
+};
+
+export function GenericGalleryPresenter({
+  images,
+  loading,
+  loadingComponent,
+}: Props) {
+  if (loading) {
+    return (
+      loadingComponent || (
+        <p className="text-center text-gray-500 mt-8">Loading...</p>
+      )
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-4">
+      {images.map((url, i) => (
+        <img
+          key={i}
+          src={url}
+          alt="Gallery Item"
+          className="rounded-xl shadow-md hover:scale-105 transition-transform"
+        />
+      ))}
+    </div>
+  );
+}
+```
+
+#### Using it for cat images
+
+```tsx
+import React from "react";
+import { GenericGalleryContainer } from "./GenericGalleryContainer";
+
+export function CatGallery() {
+  return (
+    <GenericGalleryContainer
+      fetchImages={async () => {
+        const res = await fetch("https://api.thecatapi.com/v1/images/search?limit=6");
+        const data = await res.json();
+        return data.map((item: any) => item.url);
+      }}
+    />
+  );
+}
+```
+
+### For dog images
+
+```tsx
+import React from "react";
+import { GenericGalleryContainer } from "./GenericGalleryContainer";
+
+export function DogGallery() {
+  return (
+    <GenericGalleryContainer
+      fetchImages={async () => {
+        const res = await fetch("https://dog.ceo/api/breeds/image/random/6");
+        const data = await res.json();
+        return data.message;
+      }}
+    />
+  );
+}
+```
+
+And that was it, now you got the mental model needed to implement _Container-Presenter Pattern_ but watch out...
+
+## The Caveats
+
+1. Overkill for small/simple components, for a simple button, modal, or static list, separating logic and UI adds unnecessary complexity.
+
+2. Increased file count, Each feature might require two files (container + presenter), which can clutter your folder structure.
+
+3. More prop drilling, you might end up passing too many props from Container to Presenter, especially if deeply nested.
+
+3. Tight coupling through props, if not designed carefully, Presenters can become tightly coupled to a specific data structure.
+
+4. Weaker discoverability, logic is not colocated with the UI, so new developers may need to jump between files to understand the flow.
+
+5. Not inherently scalable, the pattern splits responsibilities, but doesn’t solve deeper architectural issues like shared state or cross-component communication.
+
+6. Tooling friction, features like autocomplete or inline editing (in editors like VSCode) may feel less smooth when logic and UI are separated across files.
+
+Alright, that’s all for this blog! I hope you found it helpful. Catch you in the next one with something new and exciting. Until then, have a good one!
+
+Bye! 🐱
