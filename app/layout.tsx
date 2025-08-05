@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${spaceMono.variable} font-mono bg-[#1e2126] text-white min-h-screen`}
+        className={`${spaceMono.variable} font-mono bg-[#1e2126] text-white min-h-screen overflow-x-hidden`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">{children}</div>
         <Footer />
