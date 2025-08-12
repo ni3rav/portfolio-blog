@@ -113,7 +113,7 @@ export default function AboutMe() {
       </section>
 
       {/* Achievements Section */}
-      <section className="mb-16">
+      <section className="mb-16" id="achievements">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-2xl md:text-3xl font-bold">
             <span className="text-purple-500">#</span>achievements
@@ -140,7 +140,7 @@ export default function AboutMe() {
       </section>
 
       {/* Experience Section */}
-      <section className="mb-16">
+      <section className="mb-16" id="experience">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-2xl md:text-3xl font-bold">
             <span className="text-purple-500">#</span>experience

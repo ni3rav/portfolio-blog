@@ -104,7 +104,7 @@ export default function Home() {
           </h2>
           <div className="flex-grow mx-4 h-px bg-gray-700"></div>
           <Link
-            href="/achievements"
+            href="/about#achievements"
             className="text-gray-400 hover:text-white whitespace-nowrap"
           >
             View all --&gt;
@@ -146,7 +146,7 @@ export default function Home() {
           </h2>
           <div className="flex-grow mx-4 h-px bg-gray-700"></div>
           <Link
-            href="/experience"
+            href="/about#experience"
             className="text-gray-400 hover:text-white whitespace-nowrap"
           >
             View all --&gt;
