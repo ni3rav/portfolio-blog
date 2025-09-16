@@ -62,6 +62,17 @@ export default function Footer() {
           {/* Copyright */}
           <div className="text-center text-gray-400 text-sm">
             <p className="mt-1">crafted with 😻 by nirav (duhh)</p>
+            <p className="mt-1">
+              inspired by{" "}
+              <a
+                href="https://www.figma.com/community/file/1164933568884615740/portfolio"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-purple-500 transition-colors"
+              >
+                this Figma design
+              </a>
+            </p>
           </div>
         </div>
       </div>
