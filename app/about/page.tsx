@@ -40,7 +40,7 @@ export default function AboutMe() {
           <div className="space-y-4 text-gray-300">
             <p>
               Hello! I'm Nirav, a fullstack developer and computer science
-              sophomore at Adani University. I specialize in building modern web
+              junior at Adani University. I specialize in building modern web
               applications using React, Next.js, and TypeScript. My passion lies
               in creating efficient, scalable solutions and learning new
               technologies.

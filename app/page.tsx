@@ -68,7 +68,7 @@ export default function Home() {
               {" "}
               Computer Science
             </span>{" "}
-            sophomore
+            junior
           </h1>
           <Link
             href="/about"
