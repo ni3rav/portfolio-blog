@@ -1,184 +1,129 @@
-import Image from "next/image";
 import Link from "next/link";
-import Navbar from "@/components/navbar";
-import ProjectCard from "@/components/project-card";
-import AchievementCard from "@/components/achievement-card";
-import ExperienceCard from "@/components/experience-card";
-import BlogCard from "@/components/blog-card";
-import { achievements, experiences } from "@/content/about-me";
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
-
-// Helper to get project previews from MDX files
-function getProjectPreviews() {
-  const dir = path.join(process.cwd(), "content/projects");
-  if (!fs.existsSync(dir)) return [];
-  return fs
-    .readdirSync(dir)
-    .filter((file) => file.endsWith(".mdx") || file.endsWith(".md"))
-    .map((file) => {
-      const id = file.replace(/\.mdx?$/, "");
-      const { data } = matter(fs.readFileSync(path.join(dir, file), "utf8"));
-      return { id, ...data };
-    })
-    .slice(0, 3); // Show only first 3
-}
-
-// Helper to get blog previews from MDX files
-function getBlogPreviews() {
-  const dir = path.join(process.cwd(), "content/blogs");
-  if (!fs.existsSync(dir)) return [];
-  return fs
-    .readdirSync(dir)
-    .filter((file) => file.endsWith(".mdx") || file.endsWith(".md"))
-    .map((file) => {
-      const id = file.replace(/\.mdx?$/, "");
-      const { data } = matter(fs.readFileSync(path.join(dir, file), "utf8"));
-      return { id, ...data };
-    })
-    .slice(0, 3); // Show only first 3
-}
+import { ExternalLink } from "lucide-react";
 
 export default function Home() {
-  const projectsPrev = getProjectPreviews();
-  const blogsPrev = getBlogPreviews();
-  const achievementsPrev = achievements.slice(0, 3); // Show only first 3
-  const experiencePrev = experiences.slice(0, 3); // Show only first 3
-
   return (
-    <main>
-      <Navbar />
+    <main className="min-h-screen bg-background text-foreground grid place-items-center">
+      <div className="max-w-4xl mx-auto px-6 py-20">
+        <h1 className="text-[40px] sm:text-[60px] md:text-[80px] font-bold tracking-[0.002em] leading-[0.90] mb-6 text-balance reveal-up">
+          hi, i'm <span className="text-purple-500">nirav</span>
+        </h1>
 
-      {/* Hero Section */}
-      <section className="py-12 md:py-20 flex flex-col md:flex-row items-center justify-between gap-8">
-        <div className="w-full md:w-1/2 cursor-default">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 leading-tight animate-fade-in">
-            Hi there! <br />
-            {"I'm "}
-            <span className="text-purple-500 hover:text-purple-400 transition-colors">
-              Nirav
-            </span>
-            <br />a{" "}
-            <span className="text-purple-500 hover:text-purple-400 transition-colors">
-              fullstack
-            </span>{" "}
-            developer and
-            <span className="text-purple-500 hover:text-purple-400 transition-colors">
-              {" "}
-              Computer Science
-            </span>{" "}
-            junior
-          </h1>
-          <Link
-            href="/about"
-            className="inline-block border border-purple-500 text-white px-6 py-3 hover:bg-purple-500/10 transition-colors"
-          >
-            About Me =&gt;
-          </Link>
-        </div>
-        <div className="w-full md:w-1/2 relative">
-          <div className="relative max-w-[300px] mx-auto md:mx-0 md:ml-auto">
-            <div className="border-2 border-purple-500 absolute top-[-20px] right-[-20px] w-full h-full"></div>
-            <Image
-              src="/hero.jpeg"
-              alt="Nirav profile"
-              width={300}
-              height={400}
-              className="relative z-10"
-            />
-            <div className="absolute top-0 right-0 w-[150px] h-[150px] grid grid-cols-5 gap-2">
-              {[...Array(25)].map((_, i) => (
-                <div key={i} className="w-2 h-2 bg-gray-500 rounded-full"></div>
-              ))}
-            </div>
+        <div className="text-[20px] sm:text-[22px] md:text-[24px] tracking-[0.009em] mb-12 leading-relaxed space-y-1">
+          <div className="opacity-90 reveal-up reveal-delay-1">
+            fullstack <span className="text-purple-500">developer</span> and{" "}
+            <span className="text-purple-500">computer science junior</span>
+          </div>
+          <div className="opacity-80 reveal-up reveal-delay-2">
+            paving my way through fafo
+          </div>
+          <div className="opacity-80 italic reveal-up reveal-delay-3">
+            i like cats
           </div>
         </div>
-      </section>
 
-      {/* Achievements Preview Section */}
-      <section className="py-16">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold">
-            <span className="text-purple-500">#</span>achievements
-          </h2>
-          <div className="flex-grow mx-4 h-px bg-gray-700"></div>
-          <Link
-            href="/about#achievements"
-            className="text-gray-400 hover:text-white whitespace-nowrap"
-          >
-            View all --&gt;
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {achievementsPrev.map((achievement, index) => (
-            <AchievementCard key={index} achievement={achievement} />
-          ))}
-        </div>
-      </section>
+        <div className="mt-20 space-y-4 text-[18px] sm:text-[20px] tracking-[-0.005em] text-muted-foreground">
+          <p className="reveal-up reveal-delay-3">
+            <Link
+              href="/projects"
+              className="text-foreground hover:text-muted-foreground transition-colors"
+            >
+              <span className="bg-purple-500/10 text-purple-300 px-1 rounded">
+                projects
+              </span>
+            </Link>
+            <span className="mx-2">—</span>
+            things i've built and shipped so far{" "}
+          </p>
+          <p className="reveal-up reveal-delay-4">
+            <Link
+              href="/blogs"
+              className="text-foreground hover:text-muted-foreground transition-colors"
+            >
+              <span className="bg-purple-500/10 text-purple-300 px-1 rounded">
+                blogs
+              </span>
+            </Link>
+            <span className="mx-2">—</span>
+            some writeups to share what my learnings
+          </p>
+          <p className="reveal-up reveal-delay-5">
+            <Link
+              href="/about"
+              className="text-foreground hover:text-muted-foreground transition-colors"
+            >
+              <span className="bg-purple-500/10 text-purple-300 px-1 rounded">
+                about
+              </span>
+            </Link>
+            <span className="mx-2">—</span>a bit more context and where i’m
+            headed
+          </p>
+          <p className="reveal-up reveal-delay-6">
+            <Link
+              href="/resume.pdf"
+              className="text-foreground hover:text-muted-foreground transition-colors"
+            >
+              <span className="bg-purple-500/10 text-purple-300 px-1 rounded">
+                resume
+              </span>
+            </Link>
+            <span className="mx-2">—</span>
+            one‑page pdf with the highlights
+          </p>
+          <p className="reveal-up reveal-delay-7">
+            <Link
+              href="/stuff"
+              className="text-foreground hover:text-muted-foreground transition-colors"
+            >
+              <span className="bg-purple-500/10 text-purple-300 px-1 rounded">
+                misc
+              </span>
+            </Link>
+            <span className="mx-2">—</span>
+            some extra experiments and stuff
+          </p>
 
-      {/* Projects Preview Section */}
-      <section className="py-16">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold">
-            <span className="text-purple-500">#</span>projects
-          </h2>
-          <div className="flex-grow mx-4 h-px bg-gray-700"></div>
-          <Link
-            href="/projects"
-            className="text-gray-400 hover:text-white whitespace-nowrap"
-          >
-            View all --&gt;
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projectsPrev.map((project: any) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
-        </div>
-      </section>
+          <p className="pt-16 text-[18px] sm:text-[20px] tracking-[0.09em] reveal-up reveal-delay-8">
+            <Link
+              href="https://x.com/ni3rav"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 underline decoration-dashed underline-offset-4 decoration-purple-500/60 hover:decoration-purple-400 transition-colors"
+            >
+              x (twitter) <ExternalLink className="h-3 w-3 opacity-70" />
+            </Link>
 
-      {/* Experience Preview Section */}
-      <section className="py-16">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold">
-            <span className="text-purple-500">#</span>experience
-          </h2>
-          <div className="flex-grow mx-4 h-px bg-gray-700"></div>
-          <Link
-            href="/about#experience"
-            className="text-gray-400 hover:text-white whitespace-nowrap"
-          >
-            View all --&gt;
-          </Link>
+            <span className="mx-2">·</span>
+            <Link
+              href="https://linkedin.com/in/nirav-mht"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 underline decoration-dashed underline-offset-4 decoration-purple-500/60 hover:decoration-purple-400 transition-colors"
+            >
+              linkedin <ExternalLink className="h-3 w-3 opacity-70" />
+            </Link>
+            <span className="mx-2">·</span>
+            <Link
+              href="mailto:niravv1405@gmail.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 underline decoration-dashed underline-offset-4 decoration-purple-500/60 hover:decoration-purple-400 transition-colors"
+            >
+              email <ExternalLink className="h-3 w-3 opacity-70" />
+            </Link>
+            <span className="mx-2">·</span>
+            <Link
+              href="https://github.com/ni3rav"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 underline decoration-dashed underline-offset-4 decoration-purple-500/60 hover:decoration-purple-400 transition-colors"
+            >
+              github <ExternalLink className="h-3 w-3 opacity-70" />
+            </Link>
+          </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {experiencePrev.map((experience, index) => (
-            <ExperienceCard key={index} experience={experience} />
-          ))}
-        </div>
-      </section>
-
-      {/* Blog Preview Section */}
-      <section className="py-16">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold">
-            <span className="text-purple-500">#</span>blog
-          </h2>
-          <div className="flex-grow mx-4 h-px bg-gray-700"></div>
-          <Link
-            href="/blogs"
-            className="text-gray-400 hover:text-white whitespace-nowrap"
-          >
-            View all --&gt;
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {blogsPrev.map((blog: any) => (
-            <BlogCard key={blog.id} blog={blog} />
-          ))}
-        </div>
-      </section>
+      </div>
     </main>
   );
 }

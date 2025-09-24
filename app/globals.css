@@ -67,3 +67,45 @@ body {
     @apply hidden;
   }
 }
+
+/* Subtle reveal animations */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal-up {
+  opacity: 0;
+  animation: fade-up 600ms ease-out forwards;
+}
+
+.reveal-delay-1 {
+  animation-delay: 100ms;
+}
+.reveal-delay-2 {
+  animation-delay: 200ms;
+}
+.reveal-delay-3 {
+  animation-delay: 300ms;
+}
+.reveal-delay-4 {
+  animation-delay: 400ms;
+}
+.reveal-delay-5 {
+  animation-delay: 500ms;
+}
+.reveal-delay-6 {
+  animation-delay: 600ms;
+}
+.reveal-delay-7 {
+  animation-delay: 700ms;
+}
+.reveal-delay-8 {
+  animation-delay: 800ms;
+}

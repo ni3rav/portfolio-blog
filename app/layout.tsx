@@ -1,18 +1,17 @@
 import type React from "react";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Space_Mono } from "next/font/google";
-import Footer from "@/components/footer";
+import { Plus_Jakarta_Sans } from "next/font/google";
+import FooterWrapper from "@/components/footer-wrapper";
 
-const spaceMono = Space_Mono({
-  weight: ["400", "700"],
+const plusJakarta = Plus_Jakarta_Sans({
+  weight: ["400", "500", "600", "700", "800"],
   subsets: ["latin"],
-  variable: "--font-space-mono",
 });
 
 export const metadata: Metadata = {
-  title: "Nirav",
-  description: "Yup this is the part I'd call mine",
+  title: "😺",
+  description: "my part of the internet (ugh so cliched)",
 };
 
 export default function RootLayout({
@@ -23,10 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${spaceMono.variable} font-mono bg-[#1e2126] text-white min-h-screen overflow-x-hidden`}
+        className={`${plusJakarta.className} bg-[#1e2126] text-white min-h-screen overflow-x-hidden`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">{children}</div>
-        <Footer />
+        <FooterWrapper />
       </body>
     </html>
   );
