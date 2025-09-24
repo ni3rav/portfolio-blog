@@ -86,6 +86,15 @@ export default function Home() {
 
           <p className="pt-16 text-[18px] sm:text-[20px] tracking-[0.09em] reveal-up reveal-delay-8">
             <Link
+              href="https://github.com/ni3rav"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 underline decoration-dashed underline-offset-4 decoration-purple-500/60 hover:decoration-purple-400 transition-colors"
+            >
+              github <ExternalLink className="h-3 w-3 opacity-70" />
+            </Link>
+            <span className="mx-2">·</span>
+            <Link
               href="https://x.com/ni3rav"
               target="_blank"
               rel="noopener noreferrer"
@@ -94,15 +103,6 @@ export default function Home() {
               x (twitter) <ExternalLink className="h-3 w-3 opacity-70" />
             </Link>
 
-            <span className="mx-2">·</span>
-            <Link
-              href="https://linkedin.com/in/nirav-mht"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 underline decoration-dashed underline-offset-4 decoration-purple-500/60 hover:decoration-purple-400 transition-colors"
-            >
-              linkedin <ExternalLink className="h-3 w-3 opacity-70" />
-            </Link>
             <span className="mx-2">·</span>
             <Link
               href="mailto:niravv1405@gmail.com"
@@ -114,12 +114,12 @@ export default function Home() {
             </Link>
             <span className="mx-2">·</span>
             <Link
-              href="https://github.com/ni3rav"
+              href="https://linkedin.com/in/nirav-mht"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 underline decoration-dashed underline-offset-4 decoration-purple-500/60 hover:decoration-purple-400 transition-colors"
             >
-              github <ExternalLink className="h-3 w-3 opacity-70" />
+              linkedin <ExternalLink className="h-3 w-3 opacity-70" />
             </Link>
           </p>
         </div>
