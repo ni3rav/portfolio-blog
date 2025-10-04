@@ -1,0 +1,305 @@
+---
+title: "Factory Design Pattern: How and Why I Implemented It"
+date: "2025-10-05"
+tags: ["factory-pattern", "design-patterns", "software-architecture", "experience", "learning"]
+image: "/blogs/factory-design-pattern.png"
+author: "Nirav"
+description: "An intro to design patterns and me sharing an overview on how I implemented the factory design pattern in one of my recent projects and when you should use it."
+---
+
+Hey everyone!
+
+Before I start, I should clarify that this blog is not a deep dive or a tutorial into what design patterns are; it's just me sharing my learning and a little experience on how I implemented the factory design pattern in one of my recent projects so expect a lot of chatterbox ahead.
+
+Alright, so let's start with the basics: what are design patterns? 
+- Design patterns are typical solutions to common problems in software design. Each pattern is like a blueprint that you can customize to solve a particular design problem in your code. They are best practices that the software development community has come up with over time to solve recurring problems.
+
+- There are three types of design patterns: Creational, Structural, and Behavioral. Creational patterns deal with object creation mechanisms, trying to create objects in a manner suitable to the situation. Structural patterns ease the design by identifying a simple way to realize relationships among entities. Behavioral patterns are all about identifying common communication patterns between objects and realizing these patterns.
+
+To dumb it down, structural patterns are about how to assemble your code, behavioral patterns are about how your code should interact, and creational patterns are about how your code should be created.
+
+As mentioned earlier, I am not going to deep dive into what design patterns are. I believe I am not the right person to do that as I have barely been disciplined while writing the code (all I did is duct-taping my code to function somehow and I've regretted it multiple times). There are already a lot of great resources available online for that, the one I followed [Refactoring Guru](https://refactoring.guru/design-patterns) and [Patterns.dev](https://www.patterns.dev/#patterns).
+
+So let's jump to the main topic of this blog, which is the Factory Design Pattern. If we look at ourselves and people around us, we are all human (assuming you are not some webcrawler crawling through this), yet we are different in many ways—be it height, weight, color, and much more (not going into the philosophical debate of what makes us human) yet, eventually, we are all humans. Similarly in programming, we often have different classes that share common characteristics. For example, consider a game where we have different types of enemies: Skeleton, Knight, and Archers. Each of them has its own unique attributes and behaviors, but they all share some common characteristics like hitpoints, ability to attack, damage per second and movement speed. (Clash Royale reference) now, if we want to create instances of them, we could do it directly by calling their constructors. 
+
+However, this approach can lead to code duplication and make it harder to manage the creation logic, especially if the instantiation process is complex or involves some conditional logic, though inheritance can help us here, but it can also lead to a rigid class hierarchy that is hard to change. This is where the Factory Design Pattern comes into play. The Factory Pattern provides a way to create objects without exposing the instantiation logic to the client and refers to the newly created object using a common interface. (This was the easiest I could phrase it, apologies if it sounds confusing).
+
+Here's a simple example for what I mean:
+
+```ts
+// Cards.ts
+interface Card {
+  hitpoints: number;
+  damagePerSecond: number;
+  movementSpeed: number;
+  attack(): void;
+}
+
+class Skeleton implements Card {
+  hitpoints = 30;
+  damagePerSecond = 7;
+  movementSpeed = 1.5;
+
+  attack() {
+    console.log("Larry the King attacks with a sword!");
+  }
+}
+
+class Knight implements Card {
+  hitpoints = 300;
+  damagePerSecond = 20;
+  movementSpeed = 0.5;
+
+  attack() {
+    console.log("Best card in the game attacks with a sword!");
+  }
+}
+
+class Archer implements Card {
+  hitpoints = 75;
+  damagePerSecond = 15;
+  movementSpeed = 1;
+
+  attack() {
+    console.log("Archer attacks! (I hope the opponent doesn't have arrows...)");
+  }
+}
+
+class CardFactory {
+  static createCard(type: string): Card {
+    switch (type) {
+      case "skeleton":
+        return new Skeleton();
+      case "knight":
+        return new Knight();
+      case "archer":
+        return new Archer();
+      default:
+        throw new Error("Unknown card type");
+    }
+  }
+}
+
+// Usage Example:
+const skeleton = CardFactory.createCard("skeleton");
+skeleton.attack();
+
+const knight = CardFactory.createCard("knight");
+console.log(knight.hitpoints);
+
+const archer = CardFactory.createCard("archer");
+console.log(archer.movementSpeed);
+```
+
+So as you can see, we have a `CardFactory` class that has a static method `createCard`. This method takes a string parameter `type` and returns an instance of the corresponding card class based on the provided type. This way, the client code doesn't need to know about the specific classes or their constructors; it just calls the factory method with the desired type. I hope this example gives you a basic understanding of the Factory Design Pattern and I didn't bombard you with too much OOP (I am still learning it myself).
+
+So now let us get to how and why I implemented it [Hive](https://usehivecms.vercel.app) (one of my recent projects, still working on it). On the frontend side of the Hive, I have used React with Tanstack Query for data fetching and state management. Now if you are not familiar with Tanstack Query, it is a powerful data-fetching library that simplifies the process of fetching, caching making it easy to manage server state in your React applications. It provides a set of hooks that allow you to fetch, cache, and update data in a declarative way, making it easier to handle asynchronous operations and manage the state of your application, mainly via two hooks `useQuery` and `useMutation`. 
+
+`useQuery` is used to fetch data from a server and cache it, while `useMutation` is used to modify data on the server. Here's a simple example of both hooks  staaright form Hive's codebase:
+
+```tsx
+export function useAuth() {
+  return useQuery({
+    queryKey: ['user'], // A unique key for this query
+    queryFn: apiGetMe, // The api endpoint to which the request is sent
+  });
+}
+
+export function useLogout() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: apiLogout,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: QueryKeys.userKeys().base });
+    },
+  });
+}
+```
+
+Here you might have noticed that when we call `useQuery` a queryKey is passed as an array of strings which essentially acsts as a unique identifier for the query and when in `userMutation` we call `invalidateQueries` with the same queryKey, it tells Tanstack Query to refetch the data associated with that key, ensuring that the client-side cache is up-to-date with the server state because when I logout from the app, I want to make sure that the user data is cleared from the cache and the next time when I login, it fetches the fresh data from the server.
+
+So Nirav, enough yapping, where does the factory pattern come into play here?
+
+Alright so here is the thing, in Hive, I have multiple entities like User, Post, Comment, and many more. Each of these entities has its own set of queries and mutations. Now, if I were to type out queryKeys for each entity manually, it would lead to a lot of code duplication and make it harder to manage the query keys, especially if I were to add more entities in the future and yes I the code is prone to more and more erros in case of any typos, taking toll on applicaton performace. So to solve this problem, I decided to implement the Factory Design Pattern (kind of) to generate query keys dynamically based on the entity type. Here's how I did it:
+
+```ts
+//queryKeys.ts
+export class QueryKeys {
+  private static user = {
+    base: ['user'] as const,
+
+    me() {
+      return [...this.base, 'me'];
+    },
+
+    profile(userId?: string) {
+      return userId
+        ? [...this.base, 'profile', userId]
+        : [...this.base, 'profile'];
+    },
+
+    settings() {
+      return [...this.base, 'settings'];
+    },
+
+    sessions() {
+      return [...this.base, 'sessions'];
+    },
+  };
+
+  private static authors = {
+    base: ['authors'] as const,
+
+    author(authorId: string) {
+      return [...this.base, authorId];
+    },
+
+    search(query?: string) {
+      return query ? [...this.base, 'search', query] : [...this.base, 'search'];
+    },
+  };
+
+  private static posts = {
+    base: ['posts'] as const,
+
+    all() {
+      return [...this.base, 'all'];
+    },
+
+    userPosts(userId?: string) {
+      return userId ? [...this.base, 'user', userId] : [...this.base, 'user'];
+    },
+
+    post(postId: string) {
+      return [...this.base, postId];
+    },
+
+    byAuthor(authorId: string) {
+      return [...this.base, 'author', authorId];
+    },
+
+    byCategory(categoryId: string) {
+      return [...this.base, 'category', categoryId];
+    },
+
+    byTag(tagId: string) {
+      return [...this.base, 'tag', tagId];
+    },
+
+    drafts() {
+      return [...this.base, 'drafts'];
+    },
+
+    published() {
+      return [...this.base, 'published'];
+    },
+
+    search(query?: string) {
+      return query ? [...this.base, 'search', query] : [...this.base, 'search'];
+    },
+  };
+
+  private static categories = {
+    base: ['categories'] as const,
+
+    all() {
+      return [...this.base, 'all'];
+    },
+
+    category(categorySlug: string) {
+      return [...this.base, categorySlug];
+    },
+  };
+
+  private static tags = {
+    base: ['tags'] as const,
+
+    all() {
+      return [...this.base, 'all'];
+    },
+
+    tag(tagSlug: string) {
+      return [...this.base, tagSlug];
+    },
+  };
+
+  private static workspace = {
+    base: ['workspace'] as const,
+
+    info() {
+      return [...this.base, 'info'];
+    },
+
+    members() {
+      return [...this.base, 'members'];
+    },
+
+    workspace(workspaceSlug: string) {
+      return [...this.base, workspaceSlug];
+    },
+
+    settings() {
+      return [...this.base, 'settings'];
+    },
+  };
+
+  public static userKeys() {
+    return this.user;
+  }
+
+  public static authorKeys() {
+    return this.authors;
+  }
+
+  public static postKeys() {
+    return this.posts;
+  }
+
+  public static categoryKeys() {
+    return this.categories;
+  }
+
+  public static tagKeys() {
+    return this.tags;
+  }
+
+  public static workspaceKeys() {
+    return this.workspace;
+  }
+
+  public static allKeys() {
+    return {
+      user: this.user.base,
+      authors: this.authors.base,
+      posts: this.posts.base,
+      categories: this.categories.base,
+      tags: this.tags.base,
+      workspace: this.workspace.base,
+    };
+  }
+}
+```
+As you can see, I have a `QueryKeys` class that has static methods for each entity type. Each method returns an object with methods to generate query keys for that entity. This way, I can easily generate query keys for any entity without duplicating code and if I need to change the structure of the query keys, I only need to do it in one place and the best part is, I can easily add more entities in the future without much hassle. Here's an example of how I use it in my hooks:
+
+```ts
+export function useAuth() {
+  return useQuery({
+    queryKey: QueryKeys.userKeys().me(),
+    queryFn: apiGetMe,
+  });
+}
+
+export function useLogout() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: apiLogout,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: QueryKeys.userKeys().base });
+    },
+  });
+}
+```
+
+While it's not a pure implementation of the Factory Design Pattern, it does follow the core principle of the pattern, which is to provide a way to create objects (in this case, query keys) without exposing the instantiation logic to the client. But it's not a silver bullet, it has its own pros and cons. but instead of going into that, I would suggest you try it out yourself and see if it works for you and maybe you read about a thing or two that I missed out on, since this was more of me sharing my learnings and experience rather than a tutorial, I hope you found it useful and Thanks for reading this far.
+
+Bye ! 😺

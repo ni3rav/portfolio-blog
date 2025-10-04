@@ -11,7 +11,7 @@
 body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-rgb));
-}
+ }
 
 /* Prose styles for blog content */
 .prose h2 {
@@ -24,6 +24,7 @@ body {
 
 .prose p {
   @apply mb-4 text-gray-300;
+  text-align: justify;
 }
 
 .prose ul {
