@@ -20,7 +20,7 @@ To dumb it down, structural patterns are about how to assemble your code, behavi
 
 As mentioned earlier, I am not going to deep dive into what design patterns are. I believe I am not the right person to do that as I have barely been disciplined while writing the code (all I did is duct-taping my code to function somehow and I've regretted it multiple times). There are already a lot of great resources available online for that, the one I followed [Refactoring Guru](https://refactoring.guru/design-patterns) and [Patterns.dev](https://www.patterns.dev/#patterns).
 
-So let's jump to the main topic of this blog, which is the Factory Design Pattern. If we look at ourselves and people around us, we are all human (assuming you are not some webcrawler crawling through this), yet we are different in many ways—be it height, weight, color, and much more (not going into the philosophical debate of what makes us human) yet, eventually, we are all humans. Similarly in programming, we often have different classes that share common characteristics. For example, consider a game where we have different types of enemies: Skeleton, Knight, and Archers. Each of them has its own unique attributes and behaviors, but they all share some common characteristics like hitpoints, ability to attack, damage per second and movement speed. (Clash Royale reference) now, if we want to create instances of them, we could do it directly by calling their constructors. 
+So let's jump to the main topic of this blog, which is the Factory Design Pattern. If we look at ourselves and people around us, we are all human (assuming you are not some webcrawler crawling through this), yet we are different in many ways—be it height, weight, color, and much more (not going into the philosophical debate of what makes us human) yet, eventually, we are all humans. Similarly in programming, we often have different classes that share common characteristics. For example, consider a game where we have different types of cards: Skeleton, Knight, and Archers. Each of them has its own unique attributes and behaviors, but they all share some common characteristics like hitpoints, ability to attack, damage per second and movement speed. (Clash Royale reference) now, if we want to create instances of them, we could do it directly by calling their constructors. 
 
 However, this approach can lead to code duplication and make it harder to manage the creation logic, especially if the instantiation process is complex or involves some conditional logic, though inheritance can help us here, but it can also lead to a rigid class hierarchy that is hard to change. This is where the Factory Design Pattern comes into play. The Factory Pattern provides a way to create objects without exposing the instantiation logic to the client and refers to the newly created object using a common interface. (This was the easiest I could phrase it, apologies if it sounds confusing).
 
@@ -110,7 +110,7 @@ export function useLogout() {
   return useMutation({
     mutationFn: apiLogout,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: QueryKeys.userKeys().base });
+      queryClient.invalidateQueries({ queryKey: ['user'] });
     },
   });
 }
