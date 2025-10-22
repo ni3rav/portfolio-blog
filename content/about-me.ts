@@ -43,14 +43,7 @@ export const experiences = [
     description:
       "As the President of the Adani Student's Programming and Development Club (ASPDC), I am dedicated to leading the club toward a successful future. My focus is on fostering a vibrant community of aspiring developers and enhancing their skills through engaging experiences and initiatives.",
   },
-  {
-    title: "Frontend Developer Intern",
-    company: "Stride IQ",
-    period: "July 2025 - August 2025",
-    description:
-      "Created responsive web applications utilizing React and production-ready components, leveraging a tech stack that includes ShadCN, Tailwind CSS, and React Query.",
-    technologies: ["React", "ShadCN", "Tailwind CSS", "React Query"],
-  },
+
   {
     title: "Web Developement Domain Head",
     company: "Adani Student Programming Developement Club",
