@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground grid place-items-center">
       <div className="max-w-4xl mx-auto px-6 py-20">
-        <h1 className="text-[40px] sm:text-[60px] md:text-[80px] font-bold tracking-[0.002em] leading-[0.90] mb-6 text-balance reveal-up">
+        <h1 className="text-[40px] sm:text-[60px] md:text-[80px] font-bold tracking-[-0.07em] leading-[0.90] mb-6 text-balance reveal-up">
           hi, i'm <span className="text-purple-500">nirav</span>
         </h1>
 

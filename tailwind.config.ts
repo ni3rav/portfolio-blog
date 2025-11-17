@@ -11,8 +11,20 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        mono: ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
-        sans: ["Plus Jakarta Sans", "ui-sans-serif", "system-ui", "sans-serif"],
+        mono: [
+          "Geist Mono",
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "monospace",
+        ],
+        sans: [
+          "Geist Mono",
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "monospace",
+        ],
       },
       colors: {
         background: "hsl(var(--background))",
@@ -100,7 +112,7 @@ const config: Config = {
         DEFAULT: {
           css: {
             maxWidth: "100%",
-            fontFamily: "var(--font-space-mono), monospace",
+            fontFamily: "Geist Mono, monospace",
           },
         },
       },
