@@ -1,0 +1,175 @@
+---
+title: "Why Cookies Were Not Enough and I Switched to Chips (a.k.a Partitioned Cookies for Cross-Origin Auth)"
+date: "2025-11-17"
+tags: ["cookies", "chips", "cross-origin-cookies", "security", "web-development"]
+image: "/blogs/cookies-and-chips-cover.png"
+author: "Nirav"
+description: "A blog on how I encountered a cross-origin cookie blocking issue and how I solved it using partitioned cookies."
+---
+
+Hey everyone!
+
+First of all let me just clear, I won't be talking about cookies and chips in the literal sense, rather an issue I encountered with one of my recent project which required me to use partitioned cookies, let's rewind a bit and start from the beginning.
+
+## The Pre-Requisites
+
+Before I even start yapping about all the technical stuff, let me give you a brief overview of what cookies are and how they work.
+
+Cookies are small pieces of data that are stored on the client side by the browser, generally used to store small pieces of data that are used to track the user's activity on the website such as authentication tokens, user preferences, etc. 
+
+If you’ve heard “cookies are sent with every request,” that’s only partly true. Cookies are sent _only when they meet certain conditions_, and those conditions come from the properties set on the cookie.
+
+1. **Domain**: The cookie is sent only to the domains it’s allowed for. A dot in front lets subdomains use it too.
+2. **Path**: The cookie is sent only if the request URL starts with this path.
+3. **HttpOnly**: Makes the cookie hidden from JavaScript, but doesn’t change when it’s sent.
+4. **Secure**: The cookie is sent only over HTTPS.
+5. **SameSite**: Controls whether the cookie is allowed in cross-site situations.
+6. **Expires/Max-Age**: If the cookie is expired, it won’t be sent.
+7. **Priority**: Helps the browser decide which cookies to keep when storage is tight.
+8. **Partitioned**: Keeps the cookie locked to the specific top-level site.
+
+So the complete picture is this: **Only cookies whose domain matches, whose path matches, whose security rules allow it, and which are still valid and permitted by SameSite settings are actually sent.**
+Everything else stays in the browser and does not travel with the request.
+
+If this is too much to grasp at once, don't worry, it will make more sense later or just read the [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies) for more a deeper dive.
+
+With this knowledge in mind, let's move on to the real issue at hand.
+
+## The Issue
+
+So recently I deployed my project [Hive](https://hivecms-seven.vercel.app) which consists of a frontend and a backend(duh), the frontend is hosted on Vercel at the url `https://hivecms-seven.vercel.app` and the backend is hosted on Azure at the url `https://hive-backend.happyflower-7c02ac4a.westeurope.azurecontainerapps.io` (I had a stroke typing that), both are deployed on different domains as you can see.
+
+And for authentication I am using cookies to store my user's `session_id` into user's cookies, and the same session_id is used to authenticate the user on the backend. (And this is one of the common use case of cookies, you can read more about it [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#authentication_cookies))
+
+Everything worked fine locally but the deployment had some of its tantrums, while I was testing out the deployment on my browser it worked as expected but my friend [Supal](https://x.com/supal_v) (btw she's the one who did the frontend for Hive) was having some issues logging in where she was repeatedly getting stuck at the login page even after entering the correct credentials and getting her email address verified.
+
+I decided to reproduce the issue on my system and for that I tried to log-in with Chrome and there it was, I also got stuck at the login page even after entering the correct credentials and getting my email address verified, so I decided to check the network requests in the browser's developer tools and there it was, the cookies were not being sent with the request so my next instict was checking out the cookies tab from application menu of devtools, the `session_id` cookie was there but it had a little warning icon next to it reading "_This attempts to set cookies via Set-Cookies header which was blocked due to user preference_".
+
+## The Solution
+
+Now that I reproduced the issue I must solve it fast before I start flexing my projects in front of my friends and family or maybe even my interviewers lol.
+
+A bandaid solution to this issue is that I can just go into my chrome's settings and disable the "Block third-party cookies and site data" option, but this is not a permanent solution and I don't want to do this for every browser I use (imagine when I display Hive to interviewers and I have to ask them to disable this option on their browser lmao), so I decided to dig deeper into the issue and find a permanent solution. 
+
+While one of the easiest solution to this problem is hosting both my frontend and backend and frontend on the same domain with different subdomains but that was not an option for me right now as I don't own any domain for the project yet and I am not in the position to buy one right now so I was forced to find some other solution.
+
+After a little bit of google search, I came across [this](https://www.reddit.com/r/webdev/comments/1jgfk3v/google_chrome_blocking_third_party_cookies_due_to/)reddit post where someone had the same issue and the top comment under that post suggested to use partitioned cookies, to me the partitioned cookies was a new concept and I had to learn about it and how it works. So I literally google searched _partition cookies_ and came across [this MDN documentation](https://developer.mozilla.org/en-US/docs/Web/Privacy/Guides/Privacy_sandbox/Partitioned_cookies) and I quickly skimmed through it now let me give you a tl;dr of it.
+
+CHIPS (Cookies Having Independent Partitioned State) is a browser feature that lets third-party services store cookies in a separate space for each top-level site. Instead of one cookie being shared everywhere, the browser creates an isolated copy for every site the third-party appears on. This allows embedded services, iframes, and CDNs to keep the data they need for functionality while preventing the same cookie from being reused across unrelated sites.
+
+When a cookie is marked `Partitioned`, the browser ties it to the combination of the top-level site and the third-party domain. As a result, `widget.example.com` on `siteA.com` gets a completely separate cookie from `widget.example.com` on `siteB.com`. Third-parties can still maintain settings, sessions, or state within each site, but they cannot link those states together.
+
+To dumb it down even more:
+
+Imagine Hive's frontend is at `hive-frontend.vercel.app` and Hive's backend is at `hive-backend.azure.io`. When the frontend loads something from the backend, the backend might want to store a cookie to keep some state, for example remembering our user's session.
+
+Without CHIPS, if `hive-backend.azure.io` sets a cookie while being used inside Hive's frontend, that same cookie could also appear when any other site on the internet uses `hive-backend.azure.io`. This means one cookie is shared across every site that talks to that backend domain, which allows cross-site tracking.
+
+With CHIPS, the browser isolates that cookie per top-level site. So if `hive-backend.azure.io` sets a cookie while running inside `hive-frontend.vercel.app`, that cookie is stored only for that specific pairing. If another site, for example `example-shop.com`, also contacts `hive-backend.azure.io`, the browser gives it a completely separate cookie. Each site gets its own isolated cookie state linked to the same backend, so the backend can still function properly for each site, but it cannot combine or compare data across sites.
+
+Essentially this preserves the usefulness of cookies while blocking cross-site tracking based on shared cookies. (This is the core idea behind CHIPS)
+
+And before I move on to the implementation let me tell you one downside of this approach, CHIPS is a relatively new feature and not all browsers support it yet (At the time of writing this blog, Chrome and Firefox support it, Safari does not support it yet, read more of it in the MDN doc I mentioned earlier) but that is not a problem for me as Chrome is the most used browser and most mac users also have Chrome on their systems as well. But iOS users might have to wait for a while as all browsers on iOS requires to use Apple's  WebKit rendering engine(and it does not support CHIPS yet) basically making them a re-skinned version of Safari, but that is not a problem for me as I am not targeting iOS users for this project (sorry iOS users lol).
+
+### The implementation
+
+Now that I was aware of CHIPS it was just a matter of reading express docs (I am using express for Hive's backend) and implementing CHIPS so all I did was opened [this](https://expressjs.com/en/api.html#res.cookie) in one workspace and VSCode in the other and I just had to modify one file which was `cookies.ts` that holds all of my cookie's configuration settings which I can reuse in my backend to configure cookie options consistently.
+
+### Before 
+
+Before implementing CHIPS I was using the following code to set the cookie:
+
+```typescript
+function getSessionCookieOptions(expiresAt: Date) {
+  return {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: false,
+    expires: expiresAt,
+  };
+}
+
+export function setSessionCookie(
+  res: Response,
+  sessionId: string,
+  expiresAt: Date,
+): void {
+  res.cookie(COOKIE_NAME, sessionId, getSessionCookieOptions(expiresAt));
+}
+```
+
+### After
+
+Now after implementing CHIPS I was using the following code to set the cookie:
+
+```typescript
+function getSessionCookieOptions(expiresAt: Date) {
+  const options = {
+    httpOnly: true,
+    sameSite: 'none' as 'strict' | 'lax' | 'none',
+    secure: env.isProduction,
+    expires: expiresAt,
+    path: '/',
+    ...(env.isProduction && { partitioned: true }),
+  };
+  return options;
+}
+
+export function setSessionCookie(
+  res: Response,
+  sessionId: string,
+  expiresAt: Date,
+): void {
+  const options = getSessionCookieOptions(expiresAt);
+  res.cookie(COOKIE_NAME, sessionId, options);
+
+  if (options.partitioned && env.isProduction) {
+    const setCookieHeader = res.getHeader('Set-Cookie');
+    if (setCookieHeader) {
+      const headers = Array.isArray(setCookieHeader)
+        ? setCookieHeader
+        : [setCookieHeader];
+      const updatedHeaders = headers.map((header) => {
+        const headerStr = String(header);
+        if (headerStr.includes(`${COOKIE_NAME}=`)) {
+          if (!headerStr.includes('Partitioned')) {
+            return `${headerStr}; Partitioned`;
+          }
+        }
+        return headerStr;
+      });
+      res.setHeader('Set-Cookie', updatedHeaders);
+    }
+  }
+}
+```
+
+**Changes:**
+
+1. **`SameSite: 'lax'` → `SameSite: 'none'`**
+   - `'lax'` only sends cookies on same-site requests
+   - `'none'` allows cookies on cross-origin requests
+   - Required for frontend/backend on different domains
+
+2. **Added `Secure` flag (production only)**
+   - Required when using `SameSite=None`
+   - Ensures cookies only sent over HTTPS
+   - Set to `false` in development (HTTP localhost), `true` in production
+
+3. **Added `Partitioned` attribute (production only)**
+   - Isolates cookies per top-level site
+   - Prevents cross-site tracking while allowing legitimate cross-origin cookies
+   - Browsers allow partitioned cookies even when third-party cookies are blocked
+   - Added manually to the `Set-Cookie` header since Express may not support it natively
+
+4. **Added explicit `path: '/'`**
+   - Ensures cookie is accessible across all routes
+   - Prevents path-related cookie issues
+
+### The result
+
+While I am yet to hear it from Supal, I can confidently say that the issue is solved and the cookies are now being sent with the request and the issue has been resolved (Atleast it works on my machine now lol).
+
+That's it for the blog! I hope you found it helpful.
+
+Bye! 🐱
