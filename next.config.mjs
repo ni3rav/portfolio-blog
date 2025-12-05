@@ -15,9 +15,8 @@ try {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  // Enable Turbopack compatibility
+  turbopack: {},
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -52,9 +51,21 @@ if (userConfig) {
   }
 }
 
+// Sanitize turbopack configuration to remove invalid keys
+if (nextConfig.turbopack && nextConfig.turbopack.conditions) {
+  delete nextConfig.turbopack.conditions;
+}
+
 const withMDX = createMDX({
   // Add markdown plugins here, as desired
 });
 
 // Merge MDX config with Next.js config
-export default withMDX(nextConfig);
+const finalConfig = withMDX(nextConfig);
+
+// Sanitize turbopack configuration in the final config object
+if (finalConfig.turbopack && finalConfig.turbopack.conditions) {
+  delete finalConfig.turbopack.conditions;
+}
+
+export default finalConfig;

@@ -1,0 +1,416 @@
+\documentclass[10pt, letterpaper]{article}
+
+% Packages:
+\usepackage[
+    ignoreheadfoot, % set margins without considering header and footer
+    top=0.35 cm, % seperation between body and page edge from the top
+    bottom=0.2 cm, % seperation between body and page edge from the bottom
+    left=0.9 cm, % seperation between body and page edge from the left
+    right=0.9 cm, % seperation between body and page edge from the right
+    footskip=1.0 cm, % seperation between body and footer
+    % showframe % for debugging 
+]{geometry} % for adjusting page geometry
+\usepackage{titlesec} % for customizing section titles
+\usepackage{tabularx} % for making tables with fixed width columns
+\usepackage{array} % tabularx requires this
+\usepackage[dvipsnames]{xcolor} % for coloring text
+\definecolor{primaryColor}{RGB}{0, 79, 144} % define primary color
+\usepackage{enumitem} % for customizing lists
+\usepackage{fontawesome5} % for using icons
+\usepackage{amsmath} % for math
+\usepackage[
+    pdftitle={Nirav Maheta's Resume},
+    pdfauthor={NIrav Maheta},
+    pdfcreator={LaTeX},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref} % for links, metadata and bookmarks
+\usepackage[pscoord]{eso-pic} % for floating text on the page
+\usepackage{calc} % for calculating lengths
+\usepackage{bookmark} % for bookmarks
+\usepackage{lastpage} % for getting the total number of pages
+\usepackage{changepage} % for one column entries (adjustwidth environment)
+\usepackage{paracol} % for two and three column entries
+\usepackage{ifthen} % for conditional statements
+\usepackage{needspace} % for avoiding page brake right after the section title
+\usepackage{iftex} % check if engine is pdflatex, xetex or luatex
+
+% Ensure that generate pdf is machine readable/ATS parsable:
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    % \usepackage[T1]{fontenc} % this breaks sb2nov
+    \usepackage[utf8]{inputenc}
+    \usepackage{lmodern}
+\fi
+
+
+
+% Some settings:
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt} % remove space before adjustwidth environment
+\pagestyle{empty} % no header or footer
+\setcounter{secnumdepth}{0} % no section numbering
+\setlength{\parindent}{0pt} % no indentation
+\setlength{\topskip}{0pt} % no top skip
+\setlength{\columnsep}{0cm} % set column seperation
+\makeatletter
+\let\ps@customFooterStyle\ps@plain % Copy the plain style to customFooterStyle
+
+\patchcmd{\ps@customFooterStyle}{\thepage}{
+    \color{gray}\textit{\small John Doe - Page \thepage{} of \pageref*{LastPage}}
+}{}{} % replace number by desired string
+
+\makeatother
+%\pagestyle{customFooterStyle}
+
+\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+
+\titlespacing{\section}{
+    % left space:
+    -1pt
+}{
+    % top space:
+    0.27 cm
+}{
+    % bottom space:
+    0.18 cm
+} % section title spacing
+
+\renewcommand\labelitemi{$\circ$} % custom bullet points
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.09 cm,
+        parsep=0.09 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0.4 cm + 10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights
+
+\newenvironment{highlightsforbulletentries}{
+    \begin{itemize}[
+        topsep=0.09 cm,
+        parsep=0.09 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights for bullet entries
+
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{
+        0.18 cm + 0.00001 cm
+    }{
+        0.18 cm + 0.00001 cm
+    }
+}{
+    \end{adjustwidth}
+} % new environment for one column entries
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for two column entries
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{1.5}
+}{
+    \par\kern\topsep
+} % new environment for the header
+
+
+\newcommand{\placelastupdatedtext}{% \placetextbox{<horizontal pos>}{<vertical pos>}{<stuff>}
+  \AddToShipoutPictureFG*{% Add <stuff> to current page foreground
+    \put(
+        \LenToUnit{\paperwidth-2 cm-0.18 cm+0.05cm},
+        \LenToUnit{\paperheight-1.0 cm}
+    ){\vtop{{\null}\makebox[0pt][c]{
+        \small\color{gray}\textit{Last updated in September 2024}\hspace{\widthof{Last updated in September 2024}}
+    }}}%
+  }%
+}%
+
+
+% save the original href command in a new command:
+\let\hrefWithoutArrow\href
+
+% new command for external links:
+\renewcommand{\href}[2]{\hrefWithoutArrow{#1}{\ifthenelse{\equal{#2}{}}{ }{#2 }\raisebox{.15ex}{\footnotesize \faExternalLink*}}}
+
+
+\begin{document}
+    \newcommand{\AND}{\unskip
+        \cleaders\copy\ANDbox\hskip\wd\ANDbox
+        \ignorespaces
+    }
+    \newsavebox\ANDbox
+    \sbox\ANDbox{}
+
+    %\placelastupdatedtext
+    \begin{header}
+        \textbf{\fontsize{24 pt}{24 pt}\selectfont Nirav Maheta}
+
+        \vspace{0.2 cm}
+
+        \normalsize
+        \mbox{{\color{black}\footnotesize\faMapMarker*}\hspace*{0.13cm}Ahmedabad, Gujarat}%
+        \kern 0.2 cm%
+        \AND%
+        \kern 0.2 cm%
+        \mbox{\hrefWithoutArrow{mailto:niravv1405@gmail.com}{\color{black}{\footnotesize\faEnvelope[regular]}\hspace*{0.13cm}niravv1405@gmail.com}}%
+        \kern 0.2 cm%
+        \AND%
+        \kern 0.2 cm%
+        \mbox{\hrefWithoutArrow{tel:+91-7573892126}{\color{black}{\footnotesize\faPhone*}\hspace*{0.13cm}(91) 7573892126}}%
+        \kern 0.2 cm%
+        \AND%
+        \kern 0.2 cm%
+        \mbox{\hrefWithoutArrow{https://ni3rav.me}{\color{black}{\footnotesize\faLink}\hspace*{0.13cm}ni3rav.me}}%
+        \kern 0.2 cm%
+        \AND%
+        \kern 0.2 cm%
+        \mbox{\hrefWithoutArrow{https://linkedin.com/in/nirav-mht}{\color{black}{\footnotesize\faLinkedinIn}\hspace*{0.13cm}nirav-mht}}%
+        \kern 0.2 cm%
+        \AND%
+        \kern 0.2 cm%
+        \mbox{\hrefWithoutArrow{https://github.com/ni3rav}{\color{black}{\footnotesize\faGithub}\hspace*{0.13cm}ni3rav}}%
+    \end{header}
+
+    \vspace{0.2 cm - 0.2 cm}
+
+    \iffalse
+    \section{Quick Guide}
+
+    \begin{onecolentry}
+        \begin{highlightsforbulletentries}
+
+
+        \item Each section title is arbitrary and each section contains a list of entries.
+
+        \item There are 7 unique entry types: \textit{BulletEntry}, \textit{TextEntry}, \textit{EducationEntry}, \textit{ExperienceEntry}, \textit{NormalEntry}, \textit{PublicationEntry}, and \textit{OneLineEntry}.
+
+        \item Select a section title, pick an entry type, and start writing your section!
+
+        \item \href{https://docs.rendercv.com/user_guide/}{Here}, you can find a comprehensive user guide for RenderCV.
+
+
+        \end{highlightsforbulletentries}
+    \end{onecolentry}
+    \fi
+
+    \section{Education}
+
+        
+        \begin{twocolentry}{
+            
+            
+        \textit{July 2023 – July 2027}}
+            \textbf{Adani University}
+
+            \textit{B.Tech. in Computer Science and Engineering}
+        \end{twocolentry}
+
+        \vspace{0.09 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item CGPA: 7.73/10 
+                \item \textbf{Coursework:} Database Management Systems, Operating Systens, Data Structures and Algorithms, Object-Oriented Programming, Computer Networks, Machine Learning, Distributed Computing, IOT
+            \end{highlights}
+        \end{onecolentry}
+
+
+
+    % \section{Experience}
+
+
+
+        
+    %     \begin{twocolentry}{
+    %     \textit{Remote}    
+            
+    %     \textit{June 2025 – Aug 2025}}
+    %         \textbf{Software Engineer Intern}
+            
+    %         \textit{Toucan Labs}
+    %     \end{twocolentry}
+
+    %     \vspace{0.09 cm}
+    %     \begin{onecolentry}
+    %         \begin{highlights}
+    %             \item Architected and deployed a full-stack, enterprise-grade observability platform using Grafana Cloud, leveraging OpenTelemetry standards to provide unified logging (Loki), metrics (Prometheus/Mimir), and Application Performance Monitoring (APM) with distributed tracing (Tempo).
+                
+    %             \item Designed and implemented a centralized notifications system, including an in-app notification center, Firebase push notifications, and an admin announcement panel, delivering real-time updates with 98\%+ delivery success.
+                
+    %             \item Deployed and managed the full production stack (frontend, backend, MongoDB) on a VPS using Dokploy, with rolling blue-green deployments and a GitHub Actions CI/CD pipeline, enabling fully-automated zero-downtime releases.
+    %         \end{highlights}
+    %     \end{onecolentry}
+
+        
+    \section{Skills}
+
+
+
+        
+        \begin{onecolentry}
+            \textbf{Languages and Frameworks:} Typescript, Python, Next.js, React, Javascript, Java, Flask, SQL, C++
+        \end{onecolentry}
+
+        \vspace{0.18 cm}
+
+        \begin{onecolentry}
+            \textbf{Tools:} Git, GitHub, Linux, Docker, Google Cloud Platform, Azure, CI/CD, ZShell
+        \end{onecolentry}
+
+%----------------------------------------------------------------------------------------
+% PROJECTS
+%----------------------------------------------------------------------------------------
+\section{Projects}
+
+% ------------------------- HIVE -------------------------
+\begin{twocolentry}{
+\href{https://hivecms.online}{\faGlobe} \ \href{https://github.com/ni3rav/hive}{\faGithub}
+}
+    \textbf{Hive}
+\end{twocolentry}
+
+\vspace{0.09 cm}
+\begin{onecolentry}
+    \begin{highlights}
+        \item Built a multi-tenant headless CMS for structured content and metadata with clean, framework-agnostic API access.
+        \item Redesigned architecture for clearer schema modeling, reliable CRUD flows, and better developer experience.
+        \item Implemented content models, revision tracking, metadata pipelines, and polished documentation.
+        \item \textbf{Tech:} TypeScript, React, ShadCN, TailwindCSS, Express.js, PostgreSQL, Drizzle ORM.
+    \end{highlights}
+\end{onecolentry}
+
+\vspace{0.18 cm}
+
+% ------------------------- RETALIATE -------------------------
+\begin{twocolentry}{
+\href{https://stackblitz.com/edit/retaliate-live}{\faGlobe} \ \href{https://github.com/ni3rav/retaliate}{\faGithub}
+}
+    \textbf{Retaliate}
+\end{twocolentry}
+
+\vspace{0.09 cm}
+\begin{onecolentry}
+    \begin{highlights}
+        \item Implemented a lightweight React-like library with a Virtual DOM, Fiber reconciliation, and incremental rendering.
+        \item Added JSX support via esbuild, along with a hot-reload dev server and production build pipeline.
+        \item Built custom renderer logic, diffing algorithm, and core DOM reconciliation architecture.
+        \item \textbf{Tech:} JavaScript, esbuild.
+    \end{highlights}
+\end{onecolentry}
+
+\vspace{0.18 cm}
+
+% ------------------------- EVERNYAN -------------------------
+\begin{twocolentry}{
+\href{https://everynyan.vercel.app}{\faGlobe} \ \href{https://github.com/ni3rav/everynyan-test}{\faGithub}
+}
+    \textbf{EveryNyan}
+\end{twocolentry}
+
+\vspace{0.09 cm}
+\begin{onecolentry}
+    \begin{highlights}
+        \item Built an anonymous platform for students to share thoughts with privacy-first design and real-time updates.
+        \item Created smooth posting, interaction, and feed rendering experiences using a clean, responsive UI.
+        \item Achieved over 120 active users within the first month of launch.
+        \item \textbf{Tech:} TypeScript, React, Next.js, Firebase.
+    \end{highlights}
+\end{onecolentry}
+
+\vspace{0.18 cm}
+
+% ------------------------- ROADSAFE -------------------------
+\begin{twocolentry}{
+\href{https://roadsafe.vercel.app}{\faGlobe} \ \href{https://github.com/NotTheRightGuy/roadsafe}{\faGithub}
+}
+    \textbf{Roadsafe}
+\end{twocolentry}
+
+\vspace{0.09 cm}
+\begin{onecolentry}
+    \begin{highlights}
+        \item Built a mobile-first platform for reporting accidents and hazards with real-time updates.
+        \item Designed fast, minimal UI optimized for emergency use cases and quick reporting flows.
+        \item Developed during Techathon 2025 as a complete 24-hour hackathon project.
+        \item \textbf{Tech:} TypeScript, Next.js, Supabase.
+    \end{highlights}
+\end{onecolentry}
+
+\vspace{0.18 cm}
+    
+\section{Leadership and Achievements}
+
+% ================= PRESIDENT =================
+\begin{twocolentry}{
+\textit{Aug 2024 – Present}}
+\textbf{President, Adani Student's Programming and Development Club (ASPDC)}
+\end{twocolentry}
+
+\vspace{0.09 cm}
+\begin{onecolentry}
+    \begin{highlights}
+        \item Leading ASPDC initiatives, managing technical events, workshops, and community programs that support developer growth across the university.
+        \item Mentoring students on real-world software development, version control practices, and project planning.
+    \end{highlights}
+\end{onecolentry}
+
+\vspace{0.18 cm}
+
+% ================= WORKSHOPS =================
+\begin{twocolentry}{
+\textit{Sept 2025}}
+\textbf{Git and GitHub Workshop Instructor}
+\end{twocolentry}
+
+\vspace{0.09 cm}
+\begin{onecolentry}
+    \begin{highlights}
+        \item Conducted a three-hour hands-on workshop teaching Git fundamentals, GitHub workflows, branching, and collaborative development.
+    \end{highlights}
+\end{onecolentry}
+
+\vspace{0.18 cm}
+
+\begin{twocolentry}{
+\textit{Aug 2025}}
+\textbf{Web Development Bootcamp Instructor}
+\end{twocolentry}
+
+\vspace{0.09 cm}
+\begin{onecolentry}
+    \begin{highlights}
+        \item Delivered a full-day bootcamp covering HTML, CSS, JavaScript, and core modern web development foundations for beginners.
+    \end{highlights}
+\end{onecolentry}
+
+\vspace{0.18 cm}
+
+% ================= HACKATHON WIN =================
+\begin{twocolentry}{
+\textit{Jan 2025}}
+\textbf{Winner, Techathon 2025}
+\end{twocolentry}
+
+\vspace{0.09 cm}
+\begin{onecolentry}
+    \begin{highlights}
+        \item Secured first place for building Roadsafe, a real-time accident reporting and community awareness platform developed in a 24-hour hackathon.
+    \end{highlights}
+\end{onecolentry}
+
+\end{document}
