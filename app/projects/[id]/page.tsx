@@ -8,6 +8,7 @@ import { ArrowLeft, ExternalLink, Github } from "lucide-react";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import type { Metadata } from "next";
+import { constructMetadata } from "@/lib/metadata";
 
 // Dynamic metadata generation
 export async function generateMetadata({
@@ -29,15 +30,13 @@ export async function generateMetadata({
   }
   const file = fs.readFileSync(projectPath, "utf8");
   const { data } = matter(file);
-  return {
+  return constructMetadata({
     title: data.title || params.id,
-    description: data.description || "",
-    openGraph: {
-      title: data.title || params.id,
-      description: data.description || "",
-      images: data.image ? [{ url: data.image }] : undefined,
-    },
-  };
+    description:
+      data.description || "A project by Nirav Mehta - Fullstack Developer",
+    image: data.image || "/opengraph-image",
+    url: `/projects/${params.id}`,
+  });
 }
 
 export default async function ProjectDetail({

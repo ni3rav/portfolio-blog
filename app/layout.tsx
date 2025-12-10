@@ -1,18 +1,19 @@
 import type React from "react";
 import "./globals.css";
-import type { Metadata } from "next";
 import { Geist_Mono } from "next/font/google";
 import FooterWrapper from "@/components/footer-wrapper";
+import { defaultMetadata } from "@/lib/metadata";
+import {
+  PersonStructuredData,
+  WebsiteStructuredData,
+} from "@/components/structured-data";
 
 const geistMono = Geist_Mono({
   weight: ["400", "500", "600", "700", "800"],
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "😺",
-  description: "my part of the internet (ugh so cliched)",
-};
+export const metadata = defaultMetadata;
 
 export default function RootLayout({
   children,
@@ -21,6 +22,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        <PersonStructuredData />
+        <WebsiteStructuredData />
+      </head>
       <body
         className={`${geistMono.className} bg-[#1e2126] text-white min-h-screen overflow-x-hidden`}
       >

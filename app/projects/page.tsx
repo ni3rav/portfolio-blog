@@ -1,23 +1,14 @@
 import Navbar from "@/components/navbar";
 import ProjectCard from "@/components/project-card";
 import { getAllProjects } from "@/lib/getProjects";
-import type { Metadata } from "next";
+import { constructMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Projects | by Nirav",
-  description: "A selection of my recent work and personal projects.",
-  openGraph: {
-    title: "Projects | by Nirav",
-    description: "A selection of my recent work and personal projects.",
-    url: "/projects",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Projects | by Nirav",
-    description: "A selection of my recent work and personal projects.",
-  },
-};
+export const metadata = constructMetadata({
+  title: "Projects",
+  description:
+    "Explore my portfolio of web development projects including RoadSafe, HealthSync, Stargazer, and more. Built with React, Next.js, TypeScript, and modern web technologies.",
+  url: "/projects",
+});
 
 export default function Projects() {
   const projects = getAllProjects();

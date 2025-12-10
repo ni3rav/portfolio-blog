@@ -1,0 +1,16 @@
+{
+  "name": "Nirav Mehta - Fullstack Developer",
+  "short_name": "Nirav Mehta",
+  "description": "Fullstack developer and computer science student at Adani University",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1e2126",
+  "theme_color": "#a855f7",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}
