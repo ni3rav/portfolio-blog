@@ -32,7 +32,7 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="mt-20 border-t border-gray-700 bg-[#1c1c1e]/50 backdrop-blur-sm w-full">
+    <footer className="mt-20 border-t border-surface1 bg-mantle/50 backdrop-blur-sm w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col items-center space-y-6">
           {/* Social Links */}
@@ -45,13 +45,13 @@ export default function Footer() {
                       href={href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-400 hover:text-purple-500 transition-colors p-2 rounded-full hover:bg-purple-500/10"
+                      className="text-subtext0 hover:text-mauve transition-colors p-2 rounded-full hover:bg-mauve/10"
                       aria-label={label}
                     >
                       <Icon className="h-6 w-6" />
                     </Link>
                   </TooltipTrigger>
-                  <TooltipContent className="bg-[#2c2c2e] text-white border-none text-sm">
+                  <TooltipContent className="bg-surface0 text-text border-surface1 text-sm">
                     {label}
                   </TooltipContent>
                 </Tooltip>
@@ -60,19 +60,8 @@ export default function Footer() {
           </TooltipProvider>
 
           {/* Copyright */}
-          <div className="text-center text-gray-400 text-sm">
-            <p className="mt-1">crafted with 😻 by nirav (duhh)</p>
-            <p className="mt-1">
-              inspired by{" "}
-              <a
-                href="https://www.figma.com/community/file/1164933568884615740/portfolio"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline hover:text-purple-500 transition-colors"
-              >
-                this Figma design
-              </a>
-            </p>
+          <div className="text-center text-subtext0 text-sm">
+            <p className="mt-1">crafted with 😻</p>
           </div>
         </div>
       </div>

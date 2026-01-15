@@ -10,6 +10,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import type { Metadata } from "next";
 import { constructMetadata } from "@/lib/metadata";
 import { BlogPostStructuredData } from "@/components/structured-data";
+import { useMDXComponents } from "@/mdx-component";
 
 export async function generateMetadata({
   params,
@@ -76,27 +77,27 @@ export default async function BlogPost({
         <section className="py-16 px-4 max-w-4xl mx-auto">
           <Link
             href="/blogs"
-            className="flex items-center text-gray-400 hover:text-purple-500 mb-8 group"
+            className="flex items-center text-subtext0 hover:text-mauve mb-8 group"
           >
             <ArrowLeft className="mr-2 h-4 w-4 group-hover:translate-x-[-2px] transition-transform" />
             Back to all blogs
           </Link>
 
-          <p className="text-gray-400 mb-2">{data.date}</p>
+          <p className="text-subtext0 mb-2">{data.date}</p>
           <h1 className="text-3xl md:text-4xl font-bold mb-4">{data.title}</h1>
 
           <div className="flex flex-wrap gap-2 mb-6">
             {data.tags?.map((tag: string) => (
               <span
                 key={tag}
-                className="text-sm text-gray-400 border border-gray-700 px-3 py-1"
+                className="text-sm text-subtext0 border border-surface1 px-3 py-1"
               >
                 #{tag}
               </span>
             ))}
           </div>
 
-          <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] mb-12 overflow-hidden border border-gray-700 rounded-xl">
+          <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] mb-12 overflow-hidden border border-surface1 rounded-xl">
             <Image
               src={data.image || "/placeholder.svg"}
               alt={data.title}
@@ -106,12 +107,12 @@ export default async function BlogPost({
             />
           </div>
 
-          <article className="prose prose-invert max-w-none text-gray-300">
-            <MDXRemote source={content} />
+          <article className="prose prose-invert max-w-none text-muted-foreground">
+            <MDXRemote source={content} components={useMDXComponents({})} />
           </article>
 
-          <p className="text-sm mt-12 text-right text-gray-500">
-            Written by <span className="text-white">{data.author}</span>
+          <p className="text-sm mt-12 text-right text-overlay0">
+            Written by <span className="text-foreground">{data.author}</span>
           </p>
         </section>
       </main>

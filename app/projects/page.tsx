@@ -20,9 +20,9 @@ export default function Projects() {
       {/* Projects Header */}
       <section className="py-16">
         <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          <span className="text-purple-500">#</span>projects
+          <span className="text-mauve">#</span>projects
         </h1>
-        <p className="text-gray-400">
+        <p className="text-subtext0">
           A selection of my recent work and personal projects
         </p>
       </section>

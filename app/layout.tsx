@@ -1,6 +1,6 @@
 import type React from "react";
 import "./globals.css";
-import { Geist_Mono } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import FooterWrapper from "@/components/footer-wrapper";
 import { defaultMetadata } from "@/lib/metadata";
 import {
@@ -8,9 +8,10 @@ import {
   WebsiteStructuredData,
 } from "@/components/structured-data";
 
-const geistMono = Geist_Mono({
+const jetbrainsMono = JetBrains_Mono({
   weight: ["400", "500", "600", "700", "800"],
   subsets: ["latin"],
+  variable: "--font-mono",
 });
 
 export const metadata = defaultMetadata;
@@ -27,7 +28,7 @@ export default function RootLayout({
         <WebsiteStructuredData />
       </head>
       <body
-        className={`${geistMono.className} bg-[#1e2126] text-white min-h-screen overflow-x-hidden`}
+        className={`${jetbrainsMono.className} bg-background text-foreground min-h-screen overflow-x-hidden`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">{children}</div>
         <FooterWrapper />

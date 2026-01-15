@@ -6,18 +6,15 @@ export default function Home() {
     <main className="min-h-screen bg-background text-foreground grid place-items-center">
       <div className="max-w-4xl mx-auto px-6 py-20">
         <h1 className="text-[40px] sm:text-[60px] md:text-[80px] font-bold tracking-[-0.07em] leading-[0.90] mb-6 text-balance reveal-up">
-          hi, i'm <span className="text-purple-500">nirav</span>
+          hi, i'm <span className="text-mauve">nirav</span>
         </h1>
 
         <div className="text-[20px] sm:text-[22px] md:text-[24px] tracking-[0.009em] mb-12 leading-relaxed space-y-1">
           <div className="opacity-90 reveal-up reveal-delay-1">
-            fullstack <span className="text-purple-500">developer</span> and{" "}
-            <span className="text-purple-500">computer science junior</span>
+            fullstack <span className="text-mauve">developer</span> and{" "}
+            <span className="text-mauve">computer science junior</span>
           </div>
-          <div className="opacity-80 reveal-up reveal-delay-2">
-            paving my way through fafo
-          </div>
-          <div className="opacity-80 italic reveal-up reveal-delay-3">
+          <div className="opacity-80 italic reveal-up reveal-delay-2">
             i like cats
           </div>
         </div>
@@ -28,7 +25,7 @@ export default function Home() {
               href="/projects"
               className="text-foreground hover:text-muted-foreground transition-colors"
             >
-              <span className="bg-purple-500/10 text-purple-300 px-1 rounded">
+              <span className="bg-mauve/10 text-lavender px-1 rounded">
                 projects
               </span>
             </Link>
@@ -40,7 +37,7 @@ export default function Home() {
               href="/blogs"
               className="text-foreground hover:text-muted-foreground transition-colors"
             >
-              <span className="bg-purple-500/10 text-purple-300 px-1 rounded">
+              <span className="bg-mauve/10 text-lavender px-1 rounded">
                 blogs
               </span>
             </Link>
@@ -52,11 +49,11 @@ export default function Home() {
               href="/about"
               className="text-foreground hover:text-muted-foreground transition-colors"
             >
-              <span className="bg-purple-500/10 text-purple-300 px-1 rounded">
+              <span className="bg-mauve/10 text-lavender px-1 rounded">
                 about
               </span>
             </Link>
-            <span className="mx-2">—</span>a bit more context and where i’m
+            <span className="mx-2">—</span>a bit more context and where i'm
             headed
           </p>
           <p className="reveal-up reveal-delay-6">
@@ -64,7 +61,7 @@ export default function Home() {
               href="/resume.pdf"
               className="text-foreground hover:text-muted-foreground transition-colors"
             >
-              <span className="bg-purple-500/10 text-purple-300 px-1 rounded">
+              <span className="bg-mauve/10 text-lavender px-1 rounded">
                 resume
               </span>
             </Link>
@@ -76,7 +73,7 @@ export default function Home() {
               href="/stuff"
               className="text-foreground hover:text-muted-foreground transition-colors"
             >
-              <span className="bg-purple-500/10 text-purple-300 px-1 rounded">
+              <span className="bg-mauve/10 text-lavender px-1 rounded">
                 misc
               </span>
             </Link>
@@ -89,7 +86,7 @@ export default function Home() {
               href="https://github.com/ni3rav"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 underline decoration-dashed underline-offset-4 decoration-purple-500/60 hover:decoration-purple-400 transition-colors"
+              className="inline-flex items-center gap-1 underline decoration-dashed underline-offset-4 decoration-mauve/60 hover:decoration-lavender transition-colors"
             >
               github <ExternalLink className="h-3 w-3 opacity-70" />
             </Link>
@@ -98,7 +95,7 @@ export default function Home() {
               href="https://x.com/ni3rav"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 underline decoration-dashed underline-offset-4 decoration-purple-500/60 hover:decoration-purple-400 transition-colors"
+              className="inline-flex items-center gap-1 underline decoration-dashed underline-offset-4 decoration-mauve/60 hover:decoration-lavender transition-colors"
             >
               x (twitter) <ExternalLink className="h-3 w-3 opacity-70" />
             </Link>
@@ -108,7 +105,7 @@ export default function Home() {
               href="mailto:niravv1405@gmail.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 underline decoration-dashed underline-offset-4 decoration-purple-500/60 hover:decoration-purple-400 transition-colors"
+              className="inline-flex items-center gap-1 underline decoration-dashed underline-offset-4 decoration-mauve/60 hover:decoration-lavender transition-colors"
             >
               email <ExternalLink className="h-3 w-3 opacity-70" />
             </Link>
@@ -117,7 +114,7 @@ export default function Home() {
               href="https://linkedin.com/in/nirav-mht"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 underline decoration-dashed underline-offset-4 decoration-purple-500/60 hover:decoration-purple-400 transition-colors"
+              className="inline-flex items-center gap-1 underline decoration-dashed underline-offset-4 decoration-mauve/60 hover:decoration-lavender transition-colors"
             >
               linkedin <ExternalLink className="h-3 w-3 opacity-70" />
             </Link>

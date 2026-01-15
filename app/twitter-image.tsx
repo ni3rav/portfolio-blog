@@ -8,6 +8,15 @@ export const size = {
 };
 export const contentType = "image/png";
 
+// Catppuccin Mocha colors
+const colors = {
+  base: "#1e1e2e",
+  text: "#cdd6f4",
+  subtext0: "#a6adc8",
+  overlay0: "#6c7086",
+  mauve: "#cba6f7",
+};
+
 export default async function Image() {
   return new ImageResponse(
     (
@@ -19,7 +28,7 @@ export default async function Image() {
           flexDirection: "column",
           alignItems: "flex-start",
           justifyContent: "center",
-          backgroundColor: "#1e2126",
+          backgroundColor: colors.base,
           padding: "80px",
         }}
       >
@@ -27,27 +36,27 @@ export default async function Image() {
           style={{
             fontSize: 80,
             fontWeight: 700,
-            color: "white",
+            color: colors.text,
             marginBottom: 20,
             lineHeight: 1.1,
           }}
         >
-          hi, i'm <span style={{ color: "#a855f7" }}>nirav</span>
+          hi, i'm <span style={{ color: colors.mauve }}>nirav</span>
         </div>
         <div
           style={{
             fontSize: 40,
-            color: "#9ca3af",
+            color: colors.subtext0,
             marginBottom: 10,
           }}
         >
-          fullstack <span style={{ color: "#a855f7" }}>developer</span> and{" "}
-          <span style={{ color: "#a855f7" }}>computer science junior</span>
+          fullstack <span style={{ color: colors.mauve }}>developer</span> and{" "}
+          <span style={{ color: colors.mauve }}>computer science junior</span>
         </div>
         <div
           style={{
             fontSize: 32,
-            color: "#6b7280",
+            color: colors.overlay0,
             fontStyle: "italic",
           }}
         >
@@ -59,7 +68,7 @@ export default async function Image() {
             bottom: 60,
             right: 80,
             fontSize: 28,
-            color: "#4b5563",
+            color: colors.overlay0,
           }}
         >
           ni3rav.me

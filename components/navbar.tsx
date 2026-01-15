@@ -12,7 +12,7 @@ export default function Navbar() {
       <div className="flex justify-between items-center">
         <Link href="/" className="text-xl font-bold flex items-center">
           <span className="mr-2">
-            <Cat size={32} className="text-purple-600" strokeWidth={3} />
+            <Cat size={32} className="text-mauve" strokeWidth={3} />
           </span>{" "}
           Nirav
         </Link>
@@ -28,90 +28,90 @@ export default function Navbar() {
 
         {/* Desktop navigation */}
         <div className="hidden md:flex items-center space-x-8">
-          <Link href="/" className="hover:text-purple-500 transition-colors">
-            <span className="text-purple-500">#</span>home
+          <Link href="/" className="hover:text-mauve transition-colors">
+            <span className="text-mauve">#</span>home
           </Link>
           <Link
             href="/projects"
-            className="hover:text-purple-500 transition-colors"
+            className="hover:text-mauve transition-colors"
           >
-            <span className="text-purple-500">#</span>projects
+            <span className="text-mauve">#</span>projects
           </Link>
           <Link
             href="/stuff"
-            className="hover:text-purple-500 transition-colors"
+            className="hover:text-mauve transition-colors"
           >
-            <span className="text-purple-500">#</span>stuff
+            <span className="text-mauve">#</span>stuff
           </Link>
           <Link
             href="/blogs"
-            className="hover:text-purple-500 transition-colors"
+            className="hover:text-mauve transition-colors"
           >
-            <span className="text-purple-500">#</span>blogs
+            <span className="text-mauve">#</span>blogs
           </Link>
 
           <Link
             href="/about"
-            className="hover:text-purple-500 transition-colors"
+            className="hover:text-mauve transition-colors"
           >
-            <span className="text-purple-500">#</span>about
+            <span className="text-mauve">#</span>about
           </Link>
 
           <Link
             href="/resume.pdf"
-            className="hover:text-purple-500 transition-colors"
+            className="hover:text-mauve transition-colors"
           >
-            <span className="text-purple-500">#</span>resume
+            <span className="text-mauve">#</span>resume
           </Link>
         </div>
       </div>
 
       {/* Mobile navigation */}
       {isOpen && (
-        <div className="md:hidden mt-4 flex flex-col space-y-4 border-t border-gray-700 pt-4">
+        <div className="md:hidden mt-4 flex flex-col space-y-4 border-t border-surface1 pt-4">
           <Link
             href="/"
-            className="hover:text-purple-500 transition-colors"
+            className="hover:text-mauve transition-colors"
             onClick={() => setIsOpen(false)}
           >
-            <span className="text-purple-500">#</span>home
+            <span className="text-mauve">#</span>home
           </Link>
           <Link
             href="/projects"
-            className="hover:text-purple-500 transition-colors"
+            className="hover:text-mauve transition-colors"
             onClick={() => setIsOpen(false)}
           >
-            <span className="text-purple-500">#</span>projects
+            <span className="text-mauve">#</span>projects
           </Link>
           <Link
             href="/blogs"
-            className="hover:text-purple-500 transition-colors"
+            className="hover:text-mauve transition-colors"
             onClick={() => setIsOpen(false)}
           >
-            <span className="text-purple-500">#</span>blogs
+            <span className="text-mauve">#</span>blogs
           </Link>
           <Link
             href="/stuff"
-            className="hover:text-purple-500 transition-colors"
+            className="hover:text-mauve transition-colors"
             onClick={() => setIsOpen(false)}
           >
-            <span className="text-purple-500">#</span>stuff
+            <span className="text-mauve">#</span>stuff
           </Link>
 
           <Link
             href="/about"
-            className="hover:text-purple-500 transition-colors"
+            className="hover:text-mauve transition-colors"
             onClick={() => setIsOpen(false)}
           >
-            <span className="text-purple-500">#</span>about
+            <span className="text-mauve">#</span>about
           </Link>
 
           <Link
             href="/resume.pdf"
-            className="hover:text-purple-500 transition-colors"
+            className="hover:text-mauve transition-colors"
             onClick={() => setIsOpen(false)}
           >
-            <span className="text-purple-500">#</span>resume
+            <span className="text-mauve">#</span>resume
           </Link>
         </div>
       )}

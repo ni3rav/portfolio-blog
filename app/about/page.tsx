@@ -19,16 +19,16 @@ export default function AboutMe() {
       {/* About Header */}
       <section className="py-16">
         <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          <span className="text-purple-500">#</span>about
+          <span className="text-mauve">#</span>about
         </h1>
-        <p className="text-gray-400">Get to know me and my work</p>
+        <p className="text-subtext0">Get to know me and my work</p>
       </section>
 
       {/* About Content */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
         <div className="md:col-span-2">
           <h2 className="text-2xl font-bold mb-6">Who am I?</h2>
-          <div className="space-y-4 text-gray-300">
+          <div className="space-y-4 text-subtext1">
             <p>
               Hello! I'm Nirav, a fullstack developer and computer science
               junior at Adani University. I specialize in building modern web
@@ -51,7 +51,7 @@ export default function AboutMe() {
           <div className="mt-8">
             <Link
               href="/resume.pdf"
-              className="inline-block border border-purple-500 text-white px-6 py-3 hover:bg-purple-500/10 transition-colors"
+              className="inline-block border border-mauve text-foreground px-6 py-3 hover:bg-mauve/10 transition-colors"
             >
               My Resume =&gt;
             </Link>
@@ -59,7 +59,7 @@ export default function AboutMe() {
         </div>
         <div>
           <div className="relative max-w-[300px] mx-auto md:mx-0">
-            <div className="border-2 border-purple-500 absolute top-[-20px] right-[-20px] w-full h-full"></div>
+            <div className="border-2 border-mauve absolute top-[-20px] right-[-20px] w-full h-full"></div>
             <Image
               src="/hero.jpeg"
               alt="Nirav profile"
@@ -75,15 +75,15 @@ export default function AboutMe() {
       <section className="mb-16">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-2xl md:text-3xl font-bold">
-            <span className="text-purple-500">#</span>skills
+            <span className="text-mauve">#</span>skills
           </h2>
-          <div className="flex-grow mx-4 h-px bg-gray-700"></div>
+          <div className="flex-grow mx-4 h-px bg-surface1"></div>
         </div>
         <div className="grid grid-cols-1 gap-6">
           {skills.map((skillGroup) => (
             <div
               key={skillGroup.category}
-              className="border border-gray-700 p-4"
+              className="border border-surface1 p-4"
             >
               <h3 className="text-xl font-semibold mb-4">
                 {skillGroup.category}
@@ -92,7 +92,7 @@ export default function AboutMe() {
                 {skillGroup.items.map((skill) => (
                   <li
                     key={skill}
-                    className="border border-gray-700 px-3 py-1 mb-2"
+                    className="border border-surface1 px-3 py-1 mb-2"
                   >
                     {skill}
                   </li>
@@ -107,24 +107,24 @@ export default function AboutMe() {
       <section className="mb-16" id="achievements">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-2xl md:text-3xl font-bold">
-            <span className="text-purple-500">#</span>achievements
+            <span className="text-mauve">#</span>achievements
           </h2>
-          <div className="flex-grow mx-4 h-px bg-gray-700"></div>
+          <div className="flex-grow mx-4 h-px bg-surface1"></div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {achievements.map((achievement, index) => (
             <div
               key={index}
-              className="border border-gray-700 p-6 hover:border-purple-500/50 transition-colors"
+              className="border border-surface1 p-6 hover:border-mauve/50 transition-colors"
             >
               <h3 className="text-xl font-bold mb-2">{achievement.title}</h3>
-              <p className="text-purple-500 mb-2">
+              <p className="text-mauve mb-2">
                 {achievement.organization} <br />
-                <span className="text-sm font-light text-gray-300">
+                <span className="text-sm font-light text-subtext1">
                   {achievement.year}
                 </span>
               </p>
-              <p className="text-gray-300">{achievement.description}</p>
+              <p className="text-subtext1">{achievement.description}</p>
             </div>
           ))}
         </div>
@@ -134,33 +134,22 @@ export default function AboutMe() {
       <section className="mb-16" id="experience">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-2xl md:text-3xl font-bold">
-            <span className="text-purple-500">#</span>experience
+            <span className="text-mauve">#</span>experience
           </h2>
-          <div className="flex-grow mx-4 h-px bg-gray-700"></div>
+          <div className="flex-grow mx-4 h-px bg-surface1"></div>
         </div>
         <div className="space-y-8">
           {experiences.map((experience, index) => (
             <div
               key={index}
-              className="border-l-2 border-purple-500 pl-6 relative"
+              className="border-l-2 border-mauve pl-6 relative"
             >
-              <div className="absolute w-3 h-3 bg-purple-500 rounded-full left-[-7px] top-1"></div>
+              <div className="absolute w-3 h-3 bg-mauve rounded-full left-[-7px] top-1"></div>
               <h3 className="text-xl font-bold">{experience.title}</h3>
-              <p className="text-purple-500 mb-2">
+              <p className="text-mauve mb-2">
                 {experience.company} | {experience.period}
               </p>
-              <p className="text-gray-300 mb-3">{experience.description}</p>
-              <div className="flex flex-wrap gap-2">
-                {experience.technologies &&
-                  experience.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className="text-sm border border-gray-700 px-2 py-1 rounded"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-              </div>
+              <p className="text-subtext1 mb-3">{experience.description}</p>
             </div>
           ))}
         </div>
@@ -170,21 +159,21 @@ export default function AboutMe() {
       <section className="mb-16">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-2xl md:text-3xl font-bold">
-            <span className="text-purple-500">#</span>education
+            <span className="text-mauve">#</span>education
           </h2>
-          <div className="flex-grow mx-4 h-px bg-gray-700"></div>
+          <div className="flex-grow mx-4 h-px bg-surface1"></div>
         </div>
         <div className="space-y-8">
-          <div className="border-l-2 border-purple-500 pl-6 relative">
-            <div className="absolute w-3 h-3 bg-purple-500 rounded-full left-[-7px] top-1"></div>
+          <div className="border-l-2 border-mauve pl-6 relative">
+            <div className="absolute w-3 h-3 bg-mauve rounded-full left-[-7px] top-1"></div>
             <h3 className="text-xl font-bold">
-              Computer Science and Engineering (AI & ML)
+              Computer Science and Engineering (AI &amp; ML)
             </h3>
-            <p className="text-purple-500">Adani University | 2023 - 2027</p>
-            <p className="text-gray-300">
+            <p className="text-mauve">Adani University | 2023 - 2027</p>
+            <p className="text-subtext1">
               <b>CGPA: </b> 7.73 (As of Semester 4)
             </p>
-            <p className="text-gray-300">
+            <p className="text-subtext1">
               <b>Coursework: </b> Data Structures, Analysis and Design of
               Algorithms, Database Management Systems, Computer Networks,
               Operating Systems

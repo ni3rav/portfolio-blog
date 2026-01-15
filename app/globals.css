@@ -3,32 +3,98 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 255, 255, 255;
-  --background-rgb: 30, 33, 38;
-  --accent-color: 168, 85, 247; /* Purple-500 */
+  /* Catppuccin Mocha - Base Colors (RGB values for alpha support) */
+  --ctp-rosewater: 245 224 220;
+  --ctp-flamingo: 242 205 205;
+  --ctp-pink: 245 194 231;
+  --ctp-mauve: 203 166 247;
+  --ctp-red: 243 139 168;
+  --ctp-maroon: 235 160 172;
+  --ctp-peach: 250 179 135;
+  --ctp-yellow: 249 226 175;
+  --ctp-green: 166 227 161;
+  --ctp-teal: 148 226 213;
+  --ctp-sky: 137 220 235;
+  --ctp-sapphire: 116 199 236;
+  --ctp-blue: 137 180 250;
+  --ctp-lavender: 180 190 254;
+
+  /* Catppuccin Mocha - Surface Colors */
+  --ctp-text: 205 214 244;
+  --ctp-subtext1: 186 194 222;
+  --ctp-subtext0: 166 173 200;
+  --ctp-overlay2: 147 153 178;
+  --ctp-overlay1: 127 132 156;
+  --ctp-overlay0: 108 112 134;
+  --ctp-surface2: 88 91 112;
+  --ctp-surface1: 69 71 90;
+  --ctp-surface0: 49 50 68;
+  --ctp-base: 30 30 46;
+  --ctp-mantle: 24 24 37;
+  --ctp-crust: 17 17 27;
+
+  /* Semantic Color Tokens */
+  --background: var(--ctp-base);
+  --foreground: var(--ctp-text);
+  --card: var(--ctp-surface0);
+  --card-foreground: var(--ctp-text);
+  --popover: var(--ctp-surface0);
+  --popover-foreground: var(--ctp-text);
+  --primary: var(--ctp-mauve);
+  --primary-foreground: var(--ctp-crust);
+  --secondary: var(--ctp-surface1);
+  --secondary-foreground: var(--ctp-text);
+  --muted: var(--ctp-surface0);
+  --muted-foreground: var(--ctp-subtext0);
+  --accent: var(--ctp-mauve);
+  --accent-foreground: var(--ctp-crust);
+  --destructive: var(--ctp-red);
+  --destructive-foreground: var(--ctp-crust);
+  --border: var(--ctp-surface1);
+  --input: var(--ctp-surface1);
+  --ring: var(--ctp-mauve);
+
+  /* Chart Colors */
+  --chart-1: var(--ctp-mauve);
+  --chart-2: var(--ctp-blue);
+  --chart-3: var(--ctp-green);
+  --chart-4: var(--ctp-peach);
+  --chart-5: var(--ctp-pink);
+
+  /* Sidebar */
+  --sidebar-background: var(--ctp-mantle);
+  --sidebar-foreground: var(--ctp-text);
+  --sidebar-primary: var(--ctp-mauve);
+  --sidebar-primary-foreground: var(--ctp-crust);
+  --sidebar-accent: var(--ctp-surface1);
+  --sidebar-accent-foreground: var(--ctp-text);
+  --sidebar-border: var(--ctp-surface0);
+  --sidebar-ring: var(--ctp-mauve);
+
+  --radius: 0.5rem;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
- }
+  color: rgb(var(--foreground));
+  background: rgb(var(--background));
+}
 
 /* Prose styles for blog content */
 .prose h2 {
-  @apply text-2xl font-semibold mt-8 mb-4;
+  @apply text-2xl font-semibold mt-8 mb-4 text-foreground;
 }
 
 .prose h3 {
-  @apply text-xl font-semibold mt-6 mb-3;
+  @apply text-xl font-semibold mt-6 mb-3 text-foreground;
 }
 
 .prose p {
-  @apply mb-4 text-gray-300;
+  @apply mb-4 text-muted-foreground;
   text-align: justify;
 }
 
 .prose ul {
-  @apply list-disc pl-6 mb-4 text-gray-300;
+  @apply list-disc pl-6 mb-4 text-muted-foreground;
 }
 
 .prose li {
@@ -36,19 +102,24 @@ body {
 }
 
 .prose strong {
-  @apply text-white;
+  @apply text-foreground;
 }
 
 .prose a {
-  @apply text-purple-500 hover:text-purple-400 underline;
+  @apply text-accent hover:opacity-80 underline;
 }
 
 .prose blockquote {
-  @apply border-l-4 border-purple-500 pl-4 italic my-6;
+  @apply border-l-4 border-accent pl-4 italic my-6;
 }
 
-.prose code {
-  @apply px-1 py-0.5 rounded text-sm;
+.prose code:not([data-highlighted]) {
+  @apply px-1.5 py-0.5 rounded text-sm bg-surface0 text-mauve;
+}
+
+/* Code block styles */
+.prose pre {
+  @apply my-6 rounded-lg overflow-hidden;
 }
 
 /* Responsive adjustments */

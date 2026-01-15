@@ -20,9 +20,9 @@ export default function BlogPage() {
       {/* Blog Header */}
       <section className="pt-12 md:pt-16 pb-10">
         <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          <span className="text-purple-500">#</span>blog
+          <span className="text-mauve">#</span>blog
         </h1>
-        <p className="text-gray-400">
+        <p className="text-subtext0">
           Thoughts, ideas, and insights on web design and development
         </p>
       </section>
@@ -36,20 +36,20 @@ export default function BlogPage() {
             className="block group h-full"
             aria-label={`Read blog post: ${post.title}`}
           >
-            <article className="border border-gray-700 hover:border-purple-500 transition-colors h-full">
+            <article className="border border-surface1 hover:border-mauve transition-colors h-full">
               <div className="p-6 flex flex-col h-full">
-                <p className="text-gray-400 mb-2">{post.date}</p>
-                <h3 className="text-xl font-semibold mb-3 group-hover:text-purple-500 transition-colors">
+                <p className="text-subtext0 mb-2">{post.date}</p>
+                <h3 className="text-xl font-semibold mb-3 group-hover:text-mauve transition-colors">
                   {post.title}
                 </h3>
-                <p className="text-gray-400 mb-4 flex-grow">
+                <p className="text-subtext0 mb-4 flex-grow">
                   {post.description || "No excerpt available."}
                 </p>
                 <div className="flex flex-wrap gap-2 mt-auto">
                   {post.tags?.map((tag: string) => (
                     <span
                       key={tag}
-                      className="text-sm text-gray-400 border border-gray-700 px-2 py-1"
+                      className="text-sm text-subtext0 border border-surface1 px-2 py-1"
                     >
                       #{tag}
                     </span>
