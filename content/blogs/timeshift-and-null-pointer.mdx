@@ -50,7 +50,7 @@ CHAPTER 2: Rising Issue
 -----------------------
 
 So, it turns out I recently switched my Desktop Environment (DE) from GNOME to KDE Plasma because I was having a ton of scaling issues with GNOME. To make the switch, I ran the following commands:
-```
+```text
 sudo pacman -S plasma-desktop gwenview plasma-nm plasma-pa spectacle
 ```    
 
@@ -58,7 +58,7 @@ I might have missed a few packages while writing this blog, but this was the cor
 
 But then came the plot twist: Timeshift’s graphical interface refused to cooperate and threw a gigantic error message right in my face. I won’t bother you with all the details, so here’s the shorter version:
 
-```
+```text
 Oct 16 22:42:27 arch systemd[2363]: app-timeshift\x2dgtk@0b1d345c4e2d49f6bf71a6ac183f2872.service: Main process exited, code=exited, status=127/n/a
 Oct 16 22:42:27 arch timeshift-launcher[44142]: /usr/bin/timeshift-launcher: line 30: 44147 Segmentation fault      (core dumped) pkexec 
 Oct 16 22:42:27 arch systemd[2363]: app-timeshift\x2dgtk@0b1d345c4e2d49f6bf71a6ac183f2872.service: Failed with result 'exit-code'.
@@ -68,26 +68,26 @@ Oct 16 22:42:27 arch timeshift-launcher[44212]: /usr/bin/timeshift-launcher: lin
 
 This message indicated that I had somehow removed a package called `xhost`, so I reinstalled it by running:
 
-```
+```text
 yay -S xorg-xhost
 ```    
 
 Even after doing this, I still couldn’t access Timeshift with the GUI. So, I thought, “Let’s just use it from the command line!” I executed:
 
-```
+```text
 timeshift --check
 ```    
 
 (Oh, and just a quick note: I’ve set an alias that translates `timeshift` to `sudo timeshift` because I’m just too lazy to type `sudo` every single time!)
 
 Things didn’t work out as planned, and when I checked the logs, I encountered this error:
-```
+```text
 ** (process:61402): CRITICAL **: 22:47:10.436: gee_abstract_collection_get_size: assertion 'self != NULL' failed
 ``` 
 
 This turned out to be the actual NULL pointer issue I mentioned earlier in the blog. It indicated that a library called `libgee` was causing the problem. I tried to fix it by running:
 
-```
+```text
 sudo pacman -S libgee
 ``` 
 
@@ -102,7 +102,7 @@ An answer from a user named gm10 caught my attention and pointed me to the real 
 
 It suggested that I might have corrupted Timeshift’s config file, so I quickly checked the configuration by running:
 
-```
+```text
 cat /etc/timeshift.json
 ```    
 

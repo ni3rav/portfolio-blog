@@ -61,7 +61,7 @@ export default function Footer() {
 
           {/* Copyright */}
           <div className="text-center text-subtext0 text-sm">
-            <p className="mt-1">crafted with 😻</p>
+            <p className="mt-1">crafted with 😻 by nirav (with antigravity and opus 4.5)</p>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import type { MDXComponents } from "mdx/types";
 import { CodeBlock } from "@/components/code-block";
-import React, { type ComponentPropsWithoutRef } from "react";
+import React, { Children, type ComponentPropsWithoutRef } from "react";
 
 function extractCodeFromChildren(children: React.ReactNode): string {
   if (typeof children === "string") {
@@ -18,6 +18,10 @@ function extractCodeFromChildren(children: React.ReactNode): string {
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
     ...components,
+    a: (props: ComponentPropsWithoutRef<"a">) => {
+      const {children, target, rel, ...rest} = props
+      return <a rel="noreferrer noopener" target="_blank" {...rest}>{children}</a>
+    },
     pre: (props: ComponentPropsWithoutRef<"pre">) => {
       const { children, ...rest } = props;
       // Check if children is a code element
